@@ -13,5 +13,24 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:text="Hello World!"
+        android:id="@+id/textView" />
+
+    <Button
+        android:text="CircleClick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/CircleClick"
+        android:layout_marginTop="21dp"
+        android:layout_below="@+id/SquareClick"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:text="SquareClick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="57dp"
+        android:id="@+id/SquareClick"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
