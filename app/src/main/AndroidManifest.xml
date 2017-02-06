@@ -15,8 +15,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SqureClick" />
-        <activity android:name=".CircleClick"></activity>
+        <activity android:name=".SquareClick" />
+        <activity android:name=".CircleClick" />
     </application>
 
 </manifest>

@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
         square.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentS = new Intent(getApplicationContext(), SqureClick.class);
+                Intent intentS = new Intent(getApplicationContext(), SquareClick.class);
                 startActivity(intentS);
             }
         });
