@@ -2,20 +2,19 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_square_click"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
     tools:context="com.example.zhuoliny.bigtabtablecloth.SquareClick">
 
-    <GridView
-        android:id="@+id/board"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:numColumns="auto_fit"
-        android:columnWidth="50dp"
-        android:verticalSpacing="5dp"
-        android:horizontalSpacing="2dp"
-        android:visibility="visible"
-        android:background="#ffffff"
-        android:gravity="center"/>
-
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10px"
+        android:id="@+id/board">
+    </GridLayout>
 </RelativeLayout>

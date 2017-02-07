@@ -1,9 +1,9 @@
 package com.example.zhuoliny.bigtabtablecloth;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
 import android.os.Bundle;
 
-public class CircleClick extends AppCompatActivity {
+public class CircleClick extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
