@@ -8,29 +8,31 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="horizontal"
     tools:context="com.example.zhuoliny.bigtabtablecloth.MainActivity">
 
-    <TextView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        android:id="@+id/textView" />
-
-    <Button
-        android:text="CircleClick"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/CircleClick"
-        android:layout_marginTop="21dp"
-        android:layout_below="@+id/SquareClick"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerInParent="true"
+        android:orientation="horizontal">
 
     <Button
         android:text="SquareClick"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="57dp"
         android:id="@+id/SquareClick"
-        android:layout_below="@+id/textView"
+        android:textSize="24sp"
+        android:layout_marginRight="20dp"
         android:layout_centerHorizontal="true" />
+
+        <Button
+            android:text="CircleClick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/CircleClick"
+            android:textSize="25sp"
+            android:layout_centerHorizontal="true" />
+
+    </LinearLayout>
 </RelativeLayout>

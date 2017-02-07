@@ -17,6 +17,7 @@
         </activity>
         <activity android:name=".SquareClick" />
         <activity android:name=".CircleClick" />
+        <activity android:name=".Sequence"></activity>
     </application>
 
 </manifest>

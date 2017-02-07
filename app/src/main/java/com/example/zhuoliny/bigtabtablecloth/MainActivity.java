@@ -18,7 +18,7 @@ public class MainActivity extends Activity {
         square.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentS = new Intent(getApplicationContext(), SquareClick.class);
+                Intent intentS = new Intent(getApplicationContext(), Sequence.class);
                 startActivity(intentS);
             }
         });
@@ -27,7 +27,7 @@ public class MainActivity extends Activity {
         circle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentC = new Intent(getApplicationContext(), CircleClick.class);
+                Intent intentC = new Intent(getApplicationContext(), Sequence.class);
                 startActivity(intentC);
             }
         });

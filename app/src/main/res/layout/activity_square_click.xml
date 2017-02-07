@@ -7,6 +7,7 @@
     android:orientation="horizontal"
     android:layout_centerHorizontal="true"
     android:layout_centerVertical="true"
+    android:layout_centerInParent="true"
     tools:context="com.example.zhuoliny.bigtabtablecloth.SquareClick">
 
     <GridLayout
@@ -14,7 +15,9 @@
         android:layout_height="match_parent"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:layout_margin="10px"
+        android:layout_centerInParent="true"
+        android:layout_margin="3dp"
         android:id="@+id/board">
     </GridLayout>
+
 </RelativeLayout>
