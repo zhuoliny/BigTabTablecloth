@@ -16,7 +16,7 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:layout_centerInParent="true"
-        android:layout_margin="3dp"
+        android:layout_margin="2dp"
         android:id="@+id/board">
     </GridLayout>
 

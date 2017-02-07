@@ -17,7 +17,7 @@
         </activity>
         <activity android:name=".SquareClick" />
         <activity android:name=".CircleClick" />
-        <activity android:name=".Sequence"></activity>
+        <activity android:name=".TypeChoices"></activity>
     </application>
 
 </manifest>

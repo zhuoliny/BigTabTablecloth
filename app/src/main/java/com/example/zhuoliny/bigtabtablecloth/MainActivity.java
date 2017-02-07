@@ -2,33 +2,41 @@ package com.example.zhuoliny.bigtabtablecloth;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends Activity {
-    Button square;
-    Button circle;
+    Button sequentially;
+    Button randomly;
+    int sequentType;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-        square = (Button) findViewById(R.id.SquareClick);
-        square.setOnClickListener(new View.OnClickListener() {
+        sequentially = (Button) findViewById(R.id.sequentially);
+        sequentially.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentS = new Intent(getApplicationContext(), Sequence.class);
-                startActivity(intentS);
+                Intent intentA = new Intent(getApplicationContext(), TypeChoices.class);
+                sequentType = 0;
+                intentA.putExtra("type", sequentType);
+                startActivity(intentA);
             }
         });
 
-        circle = (Button) findViewById(R.id.CircleClick);
-        circle.setOnClickListener(new View.OnClickListener() {
+        randomly = (Button) findViewById(R.id.randomly);
+        randomly.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentC = new Intent(getApplicationContext(), Sequence.class);
-                startActivity(intentC);
+                Intent intentB = new Intent(getApplicationContext(), TypeChoices.class);
+                sequentType = 1;
+                intentB.putExtra("type", sequentType);
+                startActivity(intentB);
             }
         });
     }
