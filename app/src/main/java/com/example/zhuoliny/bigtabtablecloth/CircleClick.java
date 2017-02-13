@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,7 +15,7 @@ import java.util.Random;
 
 public class CircleClick extends Activity {
 
-    private Button buttons[], sample;
+    private Button buttons[];
     private int sequenceType;
     private int count;
     private HashMap<Integer, Integer> onOff, tracker;
