@@ -4,19 +4,22 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.util.HashMap;
 import java.util.Random;
 
 public class CircleClick extends Activity {
 
-    private Button buttons[];
+    private Button buttons[], sample;
     private int sequenceType;
     private int count;
+    private HashMap<Integer, Integer> onOff, tracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,25 +41,28 @@ public class CircleClick extends Activity {
         buttons[6] = (Button) findViewById(R.id.btn7);
         buttons[7] = (Button) findViewById(R.id.btn8);
 
+        tracker = new HashMap<Integer, Integer>();
+        onOff = new HashMap<Integer, Integer>();
+        signOnOff();
+
         for (int i=0;i<buttons.length;i++) {
             buttons[i].setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    if (onOff.get(v.getId()) == 1 && event.getAction() == MotionEvent.ACTION_DOWN) {
                         v.setBackgroundResource(R.drawable.round_button_grey);
+                        onOff.put(v.getId(), 0);
                         if (sequenceType==1) {
-                            gameOn();
+                            gameOn(v.getId());
                             count++;
                         }else{
                             if (sequenceType==0) {
-                                for (int id=0;id<buttons.length;id++) {
-                                    if (buttons[id].getId() == v.getId()) {
-                                        if (id<buttons.length-1) {
-                                            buttons[id + 1].setBackgroundResource(R.drawable.round_button_green);
-                                        }else{
-                                            gameOver();
-                                        }
-                                    }
+                                int temp = tracker.get(v.getId());
+                                if (temp<buttons.length-1) {
+                                    buttons[temp+1].setBackgroundResource(R.drawable.round_button_green);
+                                    onOff.put(buttons[temp+1].getId(), 1);
+                                }else{
+                                    gameOver();
                                 }
                             }
                         }
@@ -66,88 +72,50 @@ public class CircleClick extends Activity {
                 }
             });
         }
-        gameOn();
+        gameOn(-2693);
     }
 
     public void gameOver() {
         for (int i=0;i<buttons.length;i++) {
             buttons[i].setBackgroundResource(R.drawable.round_button_grey);
+            onOff.put(buttons[i].getId(), 0);
         }
+        count = 0;
         Context c = getApplicationContext();
         CharSequence text = "Congrats! The Game Is Completed!";
         int time = Toast.LENGTH_LONG;
         Toast t = Toast.makeText(c, text, time);
         t.show();
-        count = 0;
-        gameOn();
+        gameOn(-2693);
     }
 
-    public void gameOn() {
+    public void gameOn(int lastLight) {
         if (sequenceType==0) {
             buttons[0].setBackgroundResource(R.drawable.round_button_green);
+            onOff.put(buttons[0].getId(), 1);
         }else{
             if (sequenceType==1) {
                 Random r = new Random();
                 int i = r.nextInt(buttons.length-1);
-                buttons[i].setBackgroundResource(R.drawable.round_button_green);
                 if (count>24) {
                     gameOver();
+                }else {
+                    if (buttons[i].getId() != lastLight) {
+                        buttons[i].setBackgroundResource(R.drawable.round_button_green);
+                        onOff.put(buttons[i].getId(), 1);
+                    } else {
+                        gameOn(lastLight);
+                    }
                 }
             }
         }
     }
 
-    /*
-    private GridLayout rB;
-    private Button rButtons[];
-    private int colCount, rowCount;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_circle_click);
-        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-
-        colCount=8;
-        rowCount=8;
-
-        rB = (GridLayout) findViewById(R.id.roundB);
-        rB.setRowCount(rowCount);
-        rB.setColumnCount(colCount);
-        rB.setOrientation(GridLayout.HORIZONTAL);
-
-        rButtons = new Button[colCount*rowCount];
-        setLights();
-    }
-
-    public void setLights() {
-        for (int i=0;i<rButtons.length;i++) {
-            final Button rLight = new Button(rB.getContext());
-            rLight.setBackgroundResource(R.drawable.round_button_grey);
-            rLight.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                        rLight.setBackgroundResource(R.drawable.round_button_green);
-                    }
-                    return false;
-                }
-            });
-            rButtons[i] = rLight;
-            rB.addView(rLight);
-        }
-
-        for (int i=0;i<50;i++) {
-            Random r = new Random();
-            int x = r.nextInt(colCount);
-            int y = r.nextInt(rowCount);
-            rB.getChildAt(y*colCount+x).setVisibility(View.GONE);
-             GridLayout.LayoutParams params =
-                     (GridLayout.LayoutParams)rButtons[i].getLayoutParams();
-            params.columnSpec = rB.spec(x);
-            params.rowSpec = rB.spec(y);
-            rButtons[i].setLayoutParams(params);
+    public void signOnOff() {
+        onOff.clear();
+        for (int i=0;i<buttons.length;i++) {
+            onOff.put(buttons[i].getId(), 0);
+            tracker.put(buttons[i].getId(), i);
         }
     }
-    */
 }
