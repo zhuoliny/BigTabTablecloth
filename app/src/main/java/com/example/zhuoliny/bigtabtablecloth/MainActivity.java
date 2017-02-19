@@ -8,9 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends Activity {
-    Button sequentially;
-    Button randomly;
-    int sequentType;
+    Button save, console;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,25 +16,12 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-        sequentially = (Button) findViewById(R.id.sequentially);
-        sequentially.setOnClickListener(new View.OnClickListener() {
+        console = (Button) findViewById(R.id.Console);
+        console.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentA = new Intent(getApplicationContext(), TypeChoices.class);
-                sequentType = 0;
-                intentA.putExtra("type", sequentType);
-                startActivity(intentA);
-            }
-        });
-
-        randomly = (Button) findViewById(R.id.randomly);
-        randomly.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentB = new Intent(getApplicationContext(), TypeChoices.class);
-                sequentType = 1;
-                intentB.putExtra("type", sequentType);
-                startActivity(intentB);
+                Intent toConsole = new Intent(getApplicationContext(), Console.class);
+                startActivity(toConsole);
             }
         });
     }

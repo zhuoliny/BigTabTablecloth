@@ -8,19 +8,196 @@
 
     <LinearLayout
         android:orientation="vertical"
+        android:layout_centerInParent="true"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        android:layout_height="wrap_content">
 
         <TextView
             android:text="How the light acts?"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/sequence"
             android:textStyle="bold"
             android:textAlignment="center"
-            android:textColor="#000000"
+            android:textColor="#317ef9"
             android:layout_gravity="center_horizontal"
             android:textSize="36sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/SeqBtns">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/sequentially"
+                android:text="Sequential"
+                android:textSize="27sp"
+                android:textStyle="normal"
+                android:layout_marginRight="20dp"
+                android:textAlignment="center" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/randomly"
+                android:text="Random"
+                android:textSize="27sp"
+                android:textStyle="normal"
+                android:layout_marginRight="20dp"
+                android:textAlignment="center" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/Customize"
+                android:text="Customize"
+                android:textSize="27sp"
+                android:textStyle="normal"
+                android:textAlignment="center" />
+        </LinearLayout>
+
+    <TextView
+        android:text="What about the size of lights?"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:textColor="#317ef9"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="20dp"
+        android:textSize="36sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/SizeBtns">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/Large"
+                android:text="Large"
+                android:textSize="27sp"
+                android:textStyle="normal"
+                android:layout_marginRight="20dp"
+                android:textAlignment="center" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/Medium"
+                android:text="Medium"
+                android:textSize="27sp"
+                android:textStyle="normal"
+                android:layout_marginRight="20dp"
+                android:textAlignment="center" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/Small"
+                android:text="Small"
+                android:textSize="27sp"
+                android:textStyle="normal"
+                android:textAlignment="center" />
+        </LinearLayout>
+
+        <TextView
+            android:text="What about the color of lights?"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:textColor="#317ef9"
+            android:layout_gravity="center_horizontal"
+            android:paddingTop="20dp"
+            android:textSize="36sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/ColorBtns">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/Green"
+                android:text="Green"
+                android:textSize="27sp"
+                android:textStyle="normal"
+                android:layout_marginRight="20dp"
+                android:textColor="#42c12c"
+                android:textAlignment="center" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/Red"
+                android:text="Red"
+                android:textSize="27sp"
+                android:textStyle="normal"
+                android:layout_marginRight="20dp"
+                android:textColor="#c12c2c"
+                android:textAlignment="center" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/Blue"
+                android:text="Blue"
+                android:textSize="27sp"
+                android:textStyle="normal"
+                android:textColor="#2c3ac1"
+                android:textAlignment="center" />
+        </LinearLayout>
+
+        <TextView
+            android:text="How many times the light should show up?"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:textColor="#317ef9"
+            android:layout_gravity="center_horizontal"
+            android:paddingTop="20dp"
+            android:textSize="36sp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="normal"
+            android:textColor="#000000"
+            android:textAlignment="center"
+            android:textSize="27sp"
+            android:id="@+id/lightLimit"
+            android:hint="Just enter the integer you want"/>
+
+        <TextView
+            android:text="How long the game should be? (in seconds)"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:textColor="#317ef9"
+            android:layout_gravity="center_horizontal"
+            android:paddingTop="20dp"
+            android:textSize="36sp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="normal"
+            android:textColor="#000000"
+            android:textAlignment="center"
+            android:textSize="27sp"
+            android:id="@+id/timeLimit"
+            android:hint="Do not enter if you don't want a time limit"/>
     </LinearLayout>
 </RelativeLayout>

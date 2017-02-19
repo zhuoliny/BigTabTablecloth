@@ -4,55 +4,130 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.zhuoliny.bigtabtablecloth.MainActivity">
-
+    
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_centerInParent="true"
-        android:orientation="vertical">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Player's Name:"
+            android:textColor="#2c44c1"
+            android:textSize="36sp"
+            android:textAlignment="center"
+            android:textStyle="bold"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:textColor="#000000"
-        android:textAlignment="center"
-        android:layout_marginBottom="8dp"
-        android:layout_centerHorizontal="true"
-        android:text="You want the light acts: "/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:textStyle="normal"
+            android:textSize="36sp"
+            android:id="@+id/userName"
+            android:textAlignment="center"/>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_centerInParent="true"
-        android:id="@+id/buttons">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Player's Age:"
+            android:textColor="#2c44c1"
+            android:textSize="36sp"
+            android:layout_marginTop="20dp"
+            android:textAlignment="center"
+            android:textStyle="bold"/>
 
-        <Button
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:textStyle="normal"
+            android:textSize="36sp"
+            android:id="@+id/userAge"
+            android:textAlignment="center"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Player's Gender:"
+            android:textColor="#2c44c1"
+            android:textSize="36sp"
+            android:layout_marginTop="20dp"
+            android:textAlignment="center"
+            android:textStyle="bold"/>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/sequentially"
-            android:text="Sequentially"
-            android:textSize="27sp"
-            android:textStyle="normal|bold"
-            android:layout_marginRight="20dp"
-            android:textAlignment="center" />
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal">
 
-        <Button
-            android:layout_width="wrap_content"
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/Female"
+                android:text="Female"
+                android:textSize="27sp"
+                android:textStyle="normal"
+                android:layout_marginRight="20dp"
+                android:textAlignment="center" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/Male"
+                android:textSize="27sp"
+                android:text="Male"
+                android:textStyle="normal"
+                android:textAlignment="center" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/randomly"
-            android:text="Randomly"
-            android:textSize="27sp"
-            android:textStyle="normal|bold"
-            android:textAlignment="center" />
-    </LinearLayout>
-    </LinearLayout>
+            android:text="Anything Else?"
+            android:textColor="#2c44c1"
+            android:textSize="36sp"
+            android:layout_marginTop="20dp"
+            android:textAlignment="center"
+            android:textStyle="bold"/>
 
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:textStyle="normal"
+            android:textSize="36sp"
+            android:id="@+id/moreInfo"
+            android:textAlignment="center"/>
+
+        <LinearLayout
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/SaveInfo"
+                android:textSize="27sp"
+                android:text="Save Info"
+                android:textStyle="normal"
+                android:layout_marginRight="20dp"
+                android:textAlignment="center" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/Console"
+                android:textSize="27sp"
+                android:text="Console"
+                android:textStyle="normal"
+                android:textAlignment="center" />
+
+        </LinearLayout>
+    </LinearLayout>
 </RelativeLayout>
