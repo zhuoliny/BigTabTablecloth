@@ -12,4 +12,20 @@ public class UserInfo {
         age = _age;
         moreInfo = _more;
     }
+
+    public String getName () {
+        return userName;
+    }
+
+    public int getGender() {
+        return gender; // female(0) male(1)
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public String getMoreInfo() {
+        return moreInfo;
+    }
 }

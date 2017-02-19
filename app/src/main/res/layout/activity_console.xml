@@ -6,11 +6,56 @@
     android:layout_height="match_parent"
     tools:context="com.example.zhuoliny.bigtabtablecloth.Console">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <LinearLayout
         android:orientation="vertical"
         android:layout_centerInParent="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <TextView
+            android:text="How many times the light should show up?"
+            android:paddingTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:textColor="#317ef9"
+            android:layout_gravity="center_horizontal"
+            android:textSize="36sp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="normal"
+            android:textColor="#000000"
+            android:textAlignment="center"
+            android:textSize="27sp"
+            android:id="@+id/lightLimit"
+            android:hint="Just enter the integer you want"/>
+
+        <TextView
+            android:text="How long the game should be? (in seconds)"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:textColor="#317ef9"
+            android:layout_gravity="center_horizontal"
+            android:paddingTop="20dp"
+            android:textSize="36sp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="normal"
+            android:textColor="#000000"
+            android:textAlignment="center"
+            android:textSize="27sp"
+            android:id="@+id/timeLimit"
+            android:hint="Do not enter if you don't want a time limit"/>
 
         <TextView
             android:text="How the light acts?"
@@ -19,6 +64,7 @@
             android:textStyle="bold"
             android:textAlignment="center"
             android:textColor="#317ef9"
+            android:paddingTop="20dp"
             android:layout_gravity="center_horizontal"
             android:textSize="36sp" />
 
@@ -32,7 +78,7 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/sequentially"
+                android:id="@+id/sequential"
                 android:text="Sequential"
                 android:textSize="27sp"
                 android:textStyle="normal"
@@ -42,7 +88,7 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/randomly"
+                android:id="@+id/random"
                 android:text="Random"
                 android:textSize="27sp"
                 android:textStyle="normal"
@@ -133,7 +179,7 @@
                 android:textSize="27sp"
                 android:textStyle="normal"
                 android:layout_marginRight="20dp"
-                android:textColor="#42c12c"
+                android:textColor="#31a810"
                 android:textAlignment="center" />
 
             <Button
@@ -158,46 +204,19 @@
                 android:textAlignment="center" />
         </LinearLayout>
 
-        <TextView
-            android:text="How many times the light should show up?"
-            android:layout_width="match_parent"
+        <Button
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textAlignment="center"
-            android:textColor="#317ef9"
             android:layout_gravity="center_horizontal"
-            android:paddingTop="20dp"
-            android:textSize="36sp" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:id="@+id/consoleSave"
+            android:text="Save"
+            android:textSize="27sp"
             android:textStyle="normal"
             android:textColor="#000000"
-            android:textAlignment="center"
-            android:textSize="27sp"
-            android:id="@+id/lightLimit"
-            android:hint="Just enter the integer you want"/>
+            android:textAlignment="center" />
 
-        <TextView
-            android:text="How long the game should be? (in seconds)"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textAlignment="center"
-            android:textColor="#317ef9"
-            android:layout_gravity="center_horizontal"
-            android:paddingTop="20dp"
-            android:textSize="36sp" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textStyle="normal"
-            android:textColor="#000000"
-            android:textAlignment="center"
-            android:textSize="27sp"
-            android:id="@+id/timeLimit"
-            android:hint="Do not enter if you don't want a time limit"/>
     </LinearLayout>
+    </ScrollView>
 </RelativeLayout>

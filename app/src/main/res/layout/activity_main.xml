@@ -5,18 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.zhuoliny.bigtabtablecloth.MainActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     
     <LinearLayout
         android:orientation="vertical"
         android:layout_centerInParent="true"
         android:layout_width="match_parent"
+        android:paddingTop="15dp"
         android:layout_height="wrap_content">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Player's Name:"
             android:textColor="#2c44c1"
-            android:textSize="36sp"
+            android:textSize="32sp"
             android:textAlignment="center"
             android:textStyle="bold"/>
 
@@ -25,17 +30,18 @@
             android:layout_height="wrap_content"
             android:textColor="#000000"
             android:textStyle="normal"
-            android:textSize="36sp"
+            android:textSize="32sp"
             android:id="@+id/userName"
-            android:textAlignment="center"/>
+            android:textAlignment="center"
+            android:inputType="text" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Player's Age:"
             android:textColor="#2c44c1"
-            android:textSize="36sp"
-            android:layout_marginTop="20dp"
+            android:textSize="32sp"
+            android:paddingTop="15dp"
             android:textAlignment="center"
             android:textStyle="bold"/>
 
@@ -44,17 +50,18 @@
             android:layout_height="wrap_content"
             android:textColor="#000000"
             android:textStyle="normal"
-            android:textSize="36sp"
+            android:textSize="32sp"
             android:id="@+id/userAge"
-            android:textAlignment="center"/>
+            android:textAlignment="center"
+            android:inputType="number" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Player's Gender:"
             android:textColor="#2c44c1"
-            android:textSize="36sp"
-            android:layout_marginTop="20dp"
+            android:textSize="32sp"
+            android:paddingTop="15dp"
             android:textAlignment="center"
             android:textStyle="bold"/>
 
@@ -89,8 +96,8 @@
             android:layout_height="wrap_content"
             android:text="Anything Else?"
             android:textColor="#2c44c1"
-            android:textSize="36sp"
-            android:layout_marginTop="20dp"
+            android:textSize="32sp"
+            android:paddingTop="15dp"
             android:textAlignment="center"
             android:textStyle="bold"/>
 
@@ -99,14 +106,16 @@
             android:layout_height="wrap_content"
             android:textColor="#000000"
             android:textStyle="normal"
-            android:textSize="36sp"
+            android:textSize="32sp"
             android:id="@+id/moreInfo"
-            android:textAlignment="center"/>
+            android:textAlignment="center"
+            android:inputType="text" />
 
         <LinearLayout
             android:layout_gravity="center_horizontal"
             android:layout_width="wrap_content"
-            android:layout_marginTop="20dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
             android:layout_height="wrap_content">
 
             <Button
@@ -130,4 +139,5 @@
 
         </LinearLayout>
     </LinearLayout>
+    </ScrollView>
 </RelativeLayout>
