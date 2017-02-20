@@ -6,6 +6,14 @@
     android:layout_height="fill_parent"
     tools:context="com.example.zhuoliny.bigtabtablecloth.CircleClick">
 
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:background="@drawable/round_button_grey"
+        android:id="@+id/btn0"
+        android:layout_centerInParent="true"/>
+
+
     <RelativeLayout
         android:layout_width="470dp"
         android:layout_height="470dp"

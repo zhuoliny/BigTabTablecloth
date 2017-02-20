@@ -55,7 +55,7 @@
             android:textAlignment="center"
             android:textSize="27sp"
             android:id="@+id/timeLimit"
-            android:hint="Do not enter if you don't want a time limit"/>
+            android:hint="Enter 0 if you do not want a time limit"/>
 
         <TextView
             android:text="How the light acts?"
@@ -140,6 +140,8 @@
                 android:text="Medium"
                 android:textSize="27sp"
                 android:textStyle="normal"
+                android:background="#000000"
+                android:textColor="#ffffff"
                 android:layout_marginRight="20dp"
                 android:textAlignment="center" />
 
@@ -179,7 +181,8 @@
                 android:textSize="27sp"
                 android:textStyle="normal"
                 android:layout_marginRight="20dp"
-                android:textColor="#31a810"
+                android:textColor="#ffffff"
+                android:background="#31a810"
                 android:textAlignment="center" />
 
             <Button
