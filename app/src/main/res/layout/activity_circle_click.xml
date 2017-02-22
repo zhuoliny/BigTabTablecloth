@@ -4,6 +4,7 @@
     android:id="@+id/activity_circle_click"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:focusableInTouchMode="true"
     tools:context="com.example.zhuoliny.bigtabtablecloth.CircleClick">
 
     <Button

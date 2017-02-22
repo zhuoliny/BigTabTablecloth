@@ -62,6 +62,24 @@ public class CircleClick extends Activity {
 
     public void setupLights() {
         for (int i=0;i<buttons.length;i++) {
+            if (size == 0) {
+                ViewGroup.LayoutParams params = buttons[i].getLayoutParams();
+                params.width = 100;
+                params.height = 100;
+                buttons[i].setLayoutParams(params);
+            }
+            if (size == 1) {
+                ViewGroup.LayoutParams params = buttons[i].getLayoutParams();
+                params.width = 150;
+                params.height = 150;
+                buttons[i].setLayoutParams(params);
+            }
+            if (size == 2) {
+                ViewGroup.LayoutParams params = buttons[i].getLayoutParams();
+                params.width = 200;
+                params.height = 200;
+                buttons[i].setLayoutParams(params);
+            }
             buttons[i].setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
@@ -110,7 +128,15 @@ public class CircleClick extends Activity {
                 sequence.add(sequence.get(l));
             }
         }
-        buttons[sequence.get(marker)].setBackgroundResource(R.drawable.round_button_green);
+        if (color == 1) {
+            buttons[sequence.get(marker)].setBackgroundResource(R.drawable.round_button_green);
+        }
+        if (color == 2) {
+            buttons[sequence.get(marker)].setBackgroundResource(R.drawable.round_button_red);
+        }
+        if (color == 3) {
+            buttons[sequence.get(marker)].setBackgroundResource(R.drawable.round_button_blue);
+        }
         onOff.put(buttons[sequence.get(marker)].getId(), 1);
     }
 

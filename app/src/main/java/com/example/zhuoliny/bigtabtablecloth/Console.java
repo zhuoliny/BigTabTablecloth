@@ -39,7 +39,7 @@ public class Console extends Activity {
         timeLmt = 0; // default time limit is infinity
         timeLimit = (EditText) findViewById(R.id.timeLimit);
 
-        size = 1; // default size is medium
+        size = 2; // default size is large
         small = (Button) findViewById(R.id.Small);
         medium = (Button) findViewById(R.id.Medium);
         large = (Button) findViewById(R.id.Large);
@@ -151,10 +151,13 @@ public class Console extends Activity {
                 customize.setBackgroundColor(Color.LTGRAY);
                 customize.setTextColor(Color.BLACK);
                 sequence.clear();
-                for (int i = 0; i < 24; i++) {
-                    Random r = new Random();
-                    int position = r.nextInt(9);
-                    sequence.add(position);
+                sequence.add(generateR());
+                for (int i=0;i<24;i++) {
+                    int temp = generateR();
+                    while (temp == sequence.get(sequence.size()-1)) {
+                        temp = generateR();
+                    }
+                    sequence.add(temp);
                 }
             }
         });
@@ -226,6 +229,11 @@ public class Console extends Activity {
                 }
             }
         });
+    }
+
+    public int generateR() {
+        Random r = new Random();
+        return r.nextInt(9);
     }
 
     public boolean onlyDigits(String s) {

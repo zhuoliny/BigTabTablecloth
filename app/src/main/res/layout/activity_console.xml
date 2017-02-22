@@ -4,6 +4,7 @@
     android:id="@+id/activity_console"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
     tools:context="com.example.zhuoliny.bigtabtablecloth.Console">
 
     <ScrollView
@@ -34,7 +35,8 @@
             android:textAlignment="center"
             android:textSize="27sp"
             android:id="@+id/lightLimit"
-            android:hint="Just enter the integer you want"/>
+            android:hint="Just enter the integer you want"
+            android:inputType="number" />
 
         <TextView
             android:text="How long the game should be? (in seconds)"
@@ -55,7 +57,8 @@
             android:textAlignment="center"
             android:textSize="27sp"
             android:id="@+id/timeLimit"
-            android:hint="Enter 0 if you do not want a time limit"/>
+            android:hint="Enter 0 if you do not want a time limit"
+            android:inputType="number" />
 
         <TextView
             android:text="How the light acts?"
@@ -129,6 +132,8 @@
                 android:id="@+id/Large"
                 android:text="Large"
                 android:textSize="27sp"
+                android:background="#000000"
+                android:textColor="#ffffff"
                 android:textStyle="normal"
                 android:layout_marginRight="20dp"
                 android:textAlignment="center" />
@@ -140,8 +145,6 @@
                 android:text="Medium"
                 android:textSize="27sp"
                 android:textStyle="normal"
-                android:background="#000000"
-                android:textColor="#ffffff"
                 android:layout_marginRight="20dp"
                 android:textAlignment="center" />
 
