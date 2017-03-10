@@ -7,6 +7,12 @@
     android:focusableInTouchMode="true"
     tools:context="com.example.zhuoliny.bigtabtablecloth.CircleClick">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:id="@+id/circle_view">
+
     <Button
         android:layout_width="150dp"
         android:layout_height="150dp"
@@ -91,6 +97,7 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"/>
 
+    </RelativeLayout>
     </RelativeLayout>
 
 </RelativeLayout>

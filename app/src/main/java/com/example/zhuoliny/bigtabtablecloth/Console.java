@@ -2,15 +2,23 @@ package com.example.zhuoliny.bigtabtablecloth;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
+import android.widget.Toast;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Console extends Activity {
@@ -22,17 +30,34 @@ public class Console extends Activity {
     Button large, medium, small;
     Button green, red, blue;
     EditText lightLimit, timeLimit;
-    Dialog popupSeq;
-    EditText seqIndex;
-    Button popupSave, consoleSave;
-    String seqInt;
+    Dialog popupSeq, seqView;
+    EditText seqIndex, seqLabel;
+    Button popupSave, consoleSave, saveSeqToList, viewList;
+    String seqInt, seqLbl;
     String checkLightLmt, checkTimeLmt;
+    LinearLayout seqListView;
+    List<savedSequence> savedSequences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_console);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+        try {
+            // Retrieve the list from internal storage
+            savedSequences = new ArrayList<savedSequence>();
+            savedSequences.addAll((List<savedSequence>) InternalStorage.readObject(this, "SavedSequences"));
+            if (savedSequences.isEmpty() || savedSequences == null) {
+                savedSequences = new ArrayList<savedSequence>();
+                InternalStorage.writeObject(this, "SavedSequences", savedSequences);
+                //savedSequences = (List<savedSequence>) InternalStorage.readObject(this, "SavedSequences");
+            }
+        } catch (IOException e) {
+            Log.e("Retrieve Error", e.getMessage());
+        } catch (ClassNotFoundException e) {
+            Log.e("Retrieve Error", e.getMessage());
+        }
 
         lightLmt = -1;
         lightLimit = (EditText) findViewById(R.id.lightLimit);
@@ -173,8 +198,41 @@ public class Console extends Activity {
                 random.setTextColor(Color.BLACK);
                 customize.setBackgroundColor(Color.BLACK);
                 customize.setTextColor(Color.WHITE);
+
+                seqView = new Dialog(popupSeq.getContext());
+                seqView.setContentView(R.layout.seq_list_view);
+                viewList = (Button) popupSeq.findViewById(R.id.viewList);
+                viewList.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        seqListView = (LinearLayout) seqView.findViewById(R.id.list_sequence);
+                        seqListView.removeAllViews();
+                        for (int i=0; i<savedSequences.size(); i++) {
+                            Button aSequence = new Button(seqListView.getContext());
+                            aSequence.setId(i);
+                            aSequence.setText("Label: " + savedSequences.get(i).getSequenceName() + " ---> Sequence: " + savedSequences.get(i).getSequence());
+                            aSequence.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    sequence.clear();
+                                    sequence.addAll(savedSequences.get(v.getId()).getSequence());
+                                    Context c = getApplicationContext();
+                                    CharSequence text = "Sequence: " + savedSequences.get(v.getId()).getSequenceName() + " is chose.";
+                                    int time = Toast.LENGTH_SHORT;
+                                    Toast t = Toast.makeText(c, text, time);
+                                    t.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
+                                    t.show();
+                                    seqView.dismiss();
+                                }
+                            });
+                            seqListView.addView(aSequence, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+                        }
+                        seqView.show();
+                    }
+                });
+
                 seqIndex = (EditText) popupSeq.findViewById(R.id.seqIndex);
-                popupSave = (Button) popupSeq.findViewById(R.id.saveSeq);
+                popupSave = (Button) popupSeq.findViewById(R.id.useSeq);
                 popupSave.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -191,6 +249,32 @@ public class Console extends Activity {
                             seqIndex.setHintTextColor(Color.RED);
                             seqIndex.setHint("Please enter and use the correct format");
                             seqIndex.setText("");
+                        }
+                    }
+                });
+
+                seqLabel = (EditText) popupSeq.findViewById(R.id.seqLabel);
+                saveSeqToList = (Button) popupSeq.findViewById(R.id.saveToList);
+                saveSeqToList.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        seqLbl = seqLabel.getText().toString();
+                        seqInt = seqIndex.getText().toString();
+                        if (!seqLbl.isEmpty() && !seqInt.isEmpty() && onlyDigits(seqInt) && noNine(seqInt)) {
+                            sequence.clear();
+                            for (int i=0; i<seqInt.length(); i++) {
+                                sequence.add(seqInt.charAt(i) - '0');
+                            }
+                            savedSequences.add(new savedSequence(seqLbl, sequence));
+                            try {
+                                // Save the list of entries to internal storage
+                                InternalStorage.writeObject(popupSeq.getContext(), "SavedSequences", savedSequences);
+                            } catch (IOException e) {
+                                Log.e("Retrieve Error", e.getMessage());
+                            }
+                            seqIndex.setHintTextColor(Color.LTGRAY);
+                            seqIndex.setHint("Each entry should less than 9; No need to separate each entry");
+                            popupSeq.dismiss();
                         }
                     }
                 });

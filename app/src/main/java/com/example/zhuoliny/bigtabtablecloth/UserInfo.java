@@ -2,11 +2,11 @@ package com.example.zhuoliny.bigtabtablecloth;
 
 public class UserInfo {
     private String userName;
-    private int gender;
+    private String gender;
     private int age;
     private String moreInfo;
 
-    public UserInfo (String _uName, int _g, int _age, String _more) {
+    public UserInfo (String _uName, String _g, int _age, String _more) {
         userName = _uName;
         gender = _g;
         age = _age;
@@ -17,8 +17,8 @@ public class UserInfo {
         return userName;
     }
 
-    public int getGender() {
-        return gender; // female(0) male(1)
+    public String getGender() {
+        return gender;
     }
 
     public int getAge() {
