@@ -55,7 +55,7 @@ public class saveData {
                     file.createNewFile();
                     csvWriter = new PrintWriter(new FileWriter(file, true));
                     int last = 0;
-                    csvWriter.print("TbClth [" + (month + 1) + "/" + day + "/" + year + "]\nmilliSecond,xPosition,yPosition");
+                    csvWriter.print("TbClth [" + (month + 1) + "/" + day + "/" + year + "],milliSecond,xPosition,yPosition");
                     csvWriter.append('\n');
                     for (int i = 0; i < string.length(); i++) {
                         if (string.charAt(i) == ';') {
@@ -74,7 +74,7 @@ public class saveData {
                 try {
                     file.createNewFile();
                     csvWriter = new PrintWriter(new FileWriter(file, true));
-                    csvWriter.print("TbClth [" + (month + 1) + "/" + day + "/" + year + "]\nmilliSecond,xPosition,yPosition");
+                    csvWriter.print("TbClth [" + (month + 1) + "/" + day + "/" + year + "],milliSecond,xPosition,yPosition");
                     csvWriter.append('\n');
                     int last = 0;
 

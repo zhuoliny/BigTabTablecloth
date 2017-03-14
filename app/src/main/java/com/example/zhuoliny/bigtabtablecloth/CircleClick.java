@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,13 +29,15 @@ public class CircleClick extends Activity{
     private saveData data;
     private float xPosition, yPosition;
     private long timeInMS;
+    RelativeLayout _blank;
     // private int sequenceType; belongs to original method
     // int count; belongs to original method
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_circle_click);
+        _blank = new RelativeLayout(this);
+        setContentView(_blank);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         Intent receiver = getIntent();
@@ -46,17 +49,6 @@ public class CircleClick extends Activity{
         lightLmt = attr.getLightLimit();
         timeLmt = attr.getTimeLimit();
         data = new saveData(this);
-
-        buttons = new Button[9];
-        buttons[0] = (Button) findViewById(R.id.btn0);
-        buttons[1] = (Button) findViewById(R.id.btn1);
-        buttons[2] = (Button) findViewById(R.id.btn2);
-        buttons[3] = (Button) findViewById(R.id.btn3);
-        buttons[4] = (Button) findViewById(R.id.btn4);
-        buttons[5] = (Button) findViewById(R.id.btn5);
-        buttons[6] = (Button) findViewById(R.id.btn6);
-        buttons[7] = (Button) findViewById(R.id.btn7);
-        buttons[8] = (Button) findViewById(R.id.btn8);
 
         tracker = new HashMap<Integer, Integer>();
         onOff = new HashMap<Integer, Integer>();
@@ -82,6 +74,17 @@ public class CircleClick extends Activity{
         h.postDelayed(new Runnable() {
             @Override
             public void run() {
+                setContentView(R.layout.activity_circle_click);
+                buttons = new Button[9];
+                buttons[0] = (Button) findViewById(R.id.btn0);
+                buttons[1] = (Button) findViewById(R.id.btn1);
+                buttons[2] = (Button) findViewById(R.id.btn2);
+                buttons[3] = (Button) findViewById(R.id.btn3);
+                buttons[4] = (Button) findViewById(R.id.btn4);
+                buttons[5] = (Button) findViewById(R.id.btn5);
+                buttons[6] = (Button) findViewById(R.id.btn6);
+                buttons[7] = (Button) findViewById(R.id.btn7);
+                buttons[8] = (Button) findViewById(R.id.btn8);
                 signOnOff();
                 setupLights();
                 lightsUp(marker);

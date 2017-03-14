@@ -207,31 +207,44 @@ public class Console extends Activity {
                     public void onClick(View v) {
                         seqListView = (LinearLayout) seqView.findViewById(R.id.list_sequence);
                         seqListView.removeAllViews();
-                        for (int i=0; i<savedSequences.size(); i++) {
-                            Button aSequence = new Button(seqListView.getContext());
-                            aSequence.setId(i);
-                            aSequence.setText("Label: " + savedSequences.get(i).getSequenceName() + " ---> Sequence: " + savedSequences.get(i).getSequence());
-                            aSequence.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    sequence.clear();
-                                    sequence.addAll(savedSequences.get(v.getId()).getSequence());
-                                    Context c = getApplicationContext();
-                                    CharSequence text = "Sequence: " + savedSequences.get(v.getId()).getSequenceName() + " is chose.";
-                                    int time = Toast.LENGTH_SHORT;
-                                    Toast t = Toast.makeText(c, text, time);
-                                    t.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
-                                    t.show();
-                                    seqView.dismiss();
-                                }
-                            });
-                            seqListView.addView(aSequence, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+                        if (savedSequences.size()<=0) {
+                            Context c = getApplicationContext();
+                            CharSequence text = "No available saved sequence.";
+                            int time = Toast.LENGTH_SHORT;
+                            Toast t = Toast.makeText(c, text, time);
+                            t.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
+                            t.show();
+                            seqView.dismiss();
+                        }else {
+                            for (int i = 0; i < savedSequences.size(); i++) {
+                                Button aSequence = new Button(seqListView.getContext());
+                                aSequence.setId(i);
+                                //Log.i("sequence: ", savedSequences.get(i).getSequence().toString());
+                                aSequence.setText("Label: " + savedSequences.get(i).getSequenceName() + " ---> Sequence: " + savedSequences.get(i).getSequence());
+                                aSequence.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        sequence.clear();
+                                        sequence.addAll(savedSequences.get(v.getId()).getSequence());
+                                        Context c = getApplicationContext();
+                                        CharSequence text = "Sequence: " + savedSequences.get(v.getId()).getSequenceName() + " is chose.";
+                                        int time = Toast.LENGTH_SHORT;
+                                        Toast t = Toast.makeText(c, text, time);
+                                        t.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
+                                        t.show();
+                                        seqView.dismiss();
+                                        popupSeq.dismiss();
+                                    }
+                                });
+                                seqListView.addView(aSequence, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+                            }
                         }
                         seqView.show();
                     }
                 });
 
                 seqIndex = (EditText) popupSeq.findViewById(R.id.seqIndex);
+                seqIndex.setText("");
                 popupSave = (Button) popupSeq.findViewById(R.id.useSeq);
                 popupSave.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -254,6 +267,7 @@ public class Console extends Activity {
                 });
 
                 seqLabel = (EditText) popupSeq.findViewById(R.id.seqLabel);
+                seqLabel.setText("");
                 saveSeqToList = (Button) popupSeq.findViewById(R.id.saveToList);
                 saveSeqToList.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -267,10 +281,13 @@ public class Console extends Activity {
                             }
                             savedSequences.add(new savedSequence(seqLbl, sequence));
                             try {
-                                // Save the list of entries to internal storage
                                 InternalStorage.writeObject(popupSeq.getContext(), "SavedSequences", savedSequences);
+                                savedSequences.clear();
+                                savedSequences.addAll((List<savedSequence>) InternalStorage.readObject(popupSeq.getContext(), "SavedSequences"));
                             } catch (IOException e) {
                                 Log.e("Retrieve Error", e.getMessage());
+                            } catch (ClassNotFoundException e) {
+                                e.printStackTrace();
                             }
                             seqIndex.setHintTextColor(Color.LTGRAY);
                             seqIndex.setHint("Each entry should less than 9; No need to separate each entry");
