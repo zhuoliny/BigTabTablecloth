@@ -12,8 +12,9 @@ import android.widget.EditText;
 public class MainActivity extends Activity {
     Button save, console, female, male;
     EditText userName, moreInfo, age;
-    int gender;
+    String gender;
     private UserInfo user;
+    private saveInfo info;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +34,9 @@ public class MainActivity extends Activity {
         userName = (EditText) findViewById(R.id.userName);
         moreInfo = (EditText) findViewById(R.id.moreInfo);
         age = (EditText) findViewById(R.id.userAge);
+        info = new saveInfo(this);
 
-        gender = -1; // unknown
+        gender = ""; // unknown
         female = (Button) findViewById(R.id.Female);
         male = (Button) findViewById(R.id.Male);
         female.setOnClickListener(new View.OnClickListener() {
@@ -44,7 +46,7 @@ public class MainActivity extends Activity {
                 female.setTextColor(Color.WHITE);
                 male.setBackgroundColor(Color.LTGRAY);
                 male.setTextColor(Color.BLACK);
-                gender = 0;
+                gender = "M";
             }
         });
         male.setOnClickListener(new View.OnClickListener() {
@@ -54,7 +56,7 @@ public class MainActivity extends Activity {
                 male.setTextColor(Color.WHITE);
                 female.setBackgroundColor(Color.LTGRAY);
                 female.setTextColor(Color.BLACK);
-                gender = 1;
+                gender = "F";
             }
         });
 
@@ -62,7 +64,8 @@ public class MainActivity extends Activity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                user = new UserInfo(userName.getText().toString(), Integer.parseInt(age.getText().toString()), gender, moreInfo.getText().toString());
+                user = new UserInfo(userName.getText().toString(), gender, Integer.parseInt(age.getText().toString()), moreInfo.getText().toString());
+                info.save(userName.getText().toString(), Integer.parseInt(age.getText().toString()), gender, moreInfo.getText().toString());
             }
         });
     }

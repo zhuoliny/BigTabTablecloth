@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:focusableInTouchMode="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
 
         <LinearLayout
             android:orientation="vertical"
@@ -9,8 +15,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <Button
+                android:id="@+id/viewList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="30sp"
+                android:layout_gravity="center_horizontal"
+                android:text="Choose Saved Sequences" />
+
             <TextView
-                android:text="Enter the sequence: "
+                android:text="OR"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="28sp"
+                android:textColor="#ff9900"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:text="Enter a new sequence: "
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
@@ -19,23 +42,64 @@
                 android:textAlignment="center"/>
 
             <EditText
+                android:id="@+id/seqIndex"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName"
                 android:hint="Each entry should less than 9; No need to separate each entry"
+                android:inputType="text"
+                android:textAlignment="center"
                 android:textColor="#000000"
                 android:textSize="32sp"
-                android:textAlignment="center"
-                android:textStyle="normal"
-                android:id="@+id/seqIndex" />
+                android:textStyle="normal" />
 
             <Button
-                android:text="Save"
+                android:id="@+id/useSeq"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:text="Use it!"
+                android:textSize="30sp" />
+
+                <TextView
+                    android:text="OR"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textSize="28sp"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="#ff9900"
+                    android:textAlignment="center"/>
+
+            <TextView
+                android:text="Label your new sequence: "
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
                 android:textSize="32sp"
-                android:id="@+id/saveSeq" />
+                android:textColor="#317ef9"
+                android:textAlignment="center"/>
+
+            <EditText
+                android:id="@+id/seqLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Save the new sequence? Label it first!"
+                android:inputType="text"
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:textSize="32sp"
+                android:textStyle="normal" />
+
+            <Button
+                android:id="@+id/saveToList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textSize="30sp"
+                android:text="Use and Save it!" />
+
         </LinearLayout>
+
+    </ScrollView>
 
 </RelativeLayout>
