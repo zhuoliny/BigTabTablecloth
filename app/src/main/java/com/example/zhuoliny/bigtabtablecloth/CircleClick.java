@@ -1,6 +1,7 @@
 package com.example.zhuoliny.bigtabtablecloth;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -8,6 +9,7 @@ import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,23 +17,38 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 
 public class CircleClick extends Activity{
 
+    private UserInfo user;
     private Button buttons[];
     private int marker;
     private Attribute attr;
     private HashMap<Integer, Integer> onOff, tracker;
     private ArrayList<Integer> sequence;
     private int size, color, lightLmt, timeLmt;
-    private saveData data;
+    //private saveData data;
+    private writeCSV outputData;
     private float xPosition, yPosition;
     private long timeInMS;
+    ArrayList<String> allTouch;
+    Dialog gameoverPopup;
+    Button saveYes, saveNo;
+    private Calendar _cal = Calendar.getInstance();
+    private int _month = _cal.get(Calendar.MONTH)+1;
+    private int _day = _cal.get(Calendar.DAY_OF_MONTH);
+    private int _year = _cal.get(Calendar.YEAR);
+    private int _hour = _cal.get(Calendar.HOUR_OF_DAY);
+    private int _minute = _cal.get(Calendar.MINUTE);
+    private int _second = _cal.get(Calendar.SECOND);
     RelativeLayout _blank;
-    // private int sequenceType; belongs to original method
-    // int count; belongs to original method
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +56,9 @@ public class CircleClick extends Activity{
         _blank = new RelativeLayout(this);
         setContentView(_blank);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+        Intent userReciver = getIntent();
+        user = (UserInfo) userReciver.getSerializableExtra("aUser");
 
         Intent receiver = getIntent();
         attr = (Attribute) receiver.getSerializableExtra("Attributes");
@@ -48,15 +68,15 @@ public class CircleClick extends Activity{
         color = attr.getColor();
         lightLmt = attr.getLightLimit();
         timeLmt = attr.getTimeLimit();
-        data = new saveData(this);
 
+        allTouch = new ArrayList<String>();
         tracker = new HashMap<Integer, Integer>();
         onOff = new HashMap<Integer, Integer>();
 
         //game 3-2-1 countdown
-        for (int i=0;i<3;i++) {
+        for (int i=3;i>0;i--) {
             Context c = getApplicationContext();
-            CharSequence text = Integer.toString(i + 1);
+            CharSequence text = Integer.toString(i);
             int time = Toast.LENGTH_SHORT;
             Toast t = Toast.makeText(c, text, time);
             t.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
@@ -169,6 +189,7 @@ public class CircleClick extends Activity{
     }
 
     public void gameOver() {
+        /*
         for (int i=0;i<buttons.length;i++) {
             buttons[i].setBackgroundResource(R.drawable.round_button_grey);
             onOff.put(buttons[i].getId(), 0);
@@ -180,6 +201,32 @@ public class CircleClick extends Activity{
         t.show();
         marker = 0;
         lightsUp(marker);
+        */
+        gameoverPopup = new Dialog(this);
+        gameoverPopup.setContentView(R.layout.gameover_popup);
+        saveYes = (Button) gameoverPopup.findViewById(R.id.saveYes);
+        saveYes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveTouchData();
+                Intent backToConsole = new Intent(getApplicationContext(), Console.class);
+                backToConsole.putExtra("aUser", user);
+                startActivity(backToConsole);
+                gameoverPopup.dismiss();
+            }
+        });
+
+        saveNo = (Button) gameoverPopup.findViewById(R.id.saveNo);
+        saveNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent backToConsole = new Intent(getApplicationContext(), Console.class);
+                backToConsole.putExtra("aUser", user);
+                startActivity(backToConsole);
+                gameoverPopup.dismiss();
+            }
+        });
+        gameoverPopup.show();
     }
 
     @Override
@@ -188,10 +235,20 @@ public class CircleClick extends Activity{
             xPosition = event.getRawX();
             yPosition = event.getRawY();
             timeInMS= System.currentTimeMillis();
-            data.save(timeInMS, xPosition, yPosition);
-            //String message = "You click at x = " + xPosition + " and y = " + yPosition;
-            //Log.i("position", message);
+            Calendar cal = Calendar.getInstance();
+            int hour = cal.get(Calendar.HOUR_OF_DAY);
+            int minute = cal.get(Calendar.MINUTE);
+            int second = cal.get(Calendar.SECOND);
+            String aTouch = String.valueOf(hour)+":"+String.valueOf(minute)+":"+String.valueOf(second)+","+String.valueOf(timeInMS)+","+String.valueOf(xPosition)+","+String.valueOf(yPosition);
+            allTouch.add(aTouch);
         }
         return super.dispatchTouchEvent(event);
+    }
+
+    public void saveTouchData() {
+        String fileName = "TbClth_" + user.getName().toString() + "_" + String.valueOf(_month) + "-" + String.valueOf(_day) + "-" + String.valueOf(_year) + "_" + String.valueOf(_hour) + ":" + String.valueOf(_minute) + ":" + String.valueOf(_second) + ".csv";;
+        outputData = new writeCSV();
+        Log.i("All Touch: ", allTouch.toString());
+        outputData.writeCsvFile(this, fileName.toString(), allTouch, user);
     }
 }

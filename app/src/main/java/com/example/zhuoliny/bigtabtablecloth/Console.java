@@ -26,13 +26,14 @@ public class Console extends Activity {
     private ArrayList<Integer> sequence;
     private int size, color, lightLmt, timeLmt;
 
+    private UserInfo user;
     Button sequential, random, customize;
     Button large, medium, small;
     Button green, red, blue;
     EditText lightLimit, timeLimit;
     Dialog popupSeq, seqView;
     EditText seqIndex, seqLabel;
-    Button popupSave, consoleSave, saveSeqToList, viewList;
+    Button popupSave, consoleSave, saveSeqToList, viewList, changeUser;
     String seqInt, seqLbl;
     String checkLightLmt, checkTimeLmt;
     LinearLayout seqListView;
@@ -51,7 +52,6 @@ public class Console extends Activity {
             if (savedSequences.isEmpty() || savedSequences == null) {
                 savedSequences = new ArrayList<savedSequence>();
                 InternalStorage.writeObject(this, "SavedSequences", savedSequences);
-                //savedSequences = (List<savedSequence>) InternalStorage.readObject(this, "SavedSequences");
             }
         } catch (IOException e) {
             Log.e("Retrieve Error", e.getMessage());
@@ -219,7 +219,6 @@ public class Console extends Activity {
                             for (int i = 0; i < savedSequences.size(); i++) {
                                 Button aSequence = new Button(seqListView.getContext());
                                 aSequence.setId(i);
-                                //Log.i("sequence: ", savedSequences.get(i).getSequence().toString());
                                 aSequence.setText("Label: " + savedSequences.get(i).getSequenceName() + " ---> Sequence: " + savedSequences.get(i).getSequence());
                                 aSequence.setOnClickListener(new View.OnClickListener() {
                                     @Override
@@ -322,12 +321,23 @@ public class Console extends Activity {
                     lightLimit.setHint("Just enter the integer you want");
                     timeLimit.setHintTextColor(Color.LTGRAY);
                     timeLimit.setHint("Do not enter if you don't want a time limit");
-                    Log.i("sequence0: ", sequence.toString());
+                    Intent receiver = getIntent();
+                    user = (UserInfo) receiver.getSerializableExtra("aUser");
                     attr = new Attribute(sequence, size, timeLmt, color, lightLmt);
                     Intent toCircleClick = new Intent(getApplicationContext(), CircleClick.class);
                     toCircleClick.putExtra("Attributes", attr);
+                    toCircleClick.putExtra("aUser", user);
                     startActivity(toCircleClick);
                 }
+            }
+        });
+
+        changeUser = (Button) findViewById(R.id.changeUser);
+        changeUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent backward = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(backward);
             }
         });
     }

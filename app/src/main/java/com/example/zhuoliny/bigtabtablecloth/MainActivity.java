@@ -14,7 +14,7 @@ public class MainActivity extends Activity {
     EditText userName, moreInfo, age;
     String gender;
     private UserInfo user;
-    private saveInfo info;
+    private writeCSV info;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,19 +22,9 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-        console = (Button) findViewById(R.id.Console);
-        console.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent toConsole = new Intent(getApplicationContext(), Console.class);
-                startActivity(toConsole);
-            }
-        });
-
         userName = (EditText) findViewById(R.id.userName);
         moreInfo = (EditText) findViewById(R.id.moreInfo);
         age = (EditText) findViewById(R.id.userAge);
-        info = new saveInfo(this);
 
         gender = ""; // unknown
         female = (Button) findViewById(R.id.Female);
@@ -46,7 +36,7 @@ public class MainActivity extends Activity {
                 female.setTextColor(Color.WHITE);
                 male.setBackgroundColor(Color.LTGRAY);
                 male.setTextColor(Color.BLACK);
-                gender = "M";
+                gender = "F";
             }
         });
         male.setOnClickListener(new View.OnClickListener() {
@@ -56,7 +46,7 @@ public class MainActivity extends Activity {
                 male.setTextColor(Color.WHITE);
                 female.setBackgroundColor(Color.LTGRAY);
                 female.setTextColor(Color.BLACK);
-                gender = "F";
+                gender = "M";
             }
         });
 
@@ -65,7 +55,9 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 user = new UserInfo(userName.getText().toString(), gender, Integer.parseInt(age.getText().toString()), moreInfo.getText().toString());
-                info.save(userName.getText().toString(), Integer.parseInt(age.getText().toString()), gender, moreInfo.getText().toString());
+                Intent toConsole = new Intent(getApplicationContext(), Console.class);
+                toConsole.putExtra("aUser", user);
+                startActivity(toConsole);
             }
         });
     }

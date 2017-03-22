@@ -1,12 +1,14 @@
 package com.example.zhuoliny.bigtabtablecloth;
 
-public class UserInfo {
+import java.io.Serializable;
+
+public class UserInfo implements Serializable {
     private String userName;
     private String gender;
     private int age;
     private String moreInfo;
 
-    public UserInfo (String _uName, String _g, int _age, String _more) {
+    public UserInfo(String _uName, String _g, int _age, String _more) {
         userName = _uName;
         gender = _g;
         age = _age;

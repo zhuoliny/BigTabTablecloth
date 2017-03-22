@@ -126,9 +126,9 @@
                 android:textSize="27sp"
                 android:text="Save Info"
                 android:textStyle="normal"
-                android:layout_marginRight="20dp"
                 android:textAlignment="center" />
 
+            <!--
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -137,7 +137,7 @@
                 android:text="Console"
                 android:textStyle="normal"
                 android:textAlignment="center" />
-
+                -->
         </LinearLayout>
     </LinearLayout>
     </ScrollView>

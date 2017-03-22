@@ -30,10 +30,10 @@ public class saveData {
         FileOutputStream outputStream;
         FileInputStream inputStream;
         _context = context;
-        _fileName = "TbClth_" + (month + 1) + "M" + day + "D" + year + "Y_" + hour + "h" + minute + "m" + second + "s.csv";
+        _fileName = "TbClth_" + month + "/" + day + "/" + year + "/_" + hour + ":" + minute + ":" + second + ".csv";
     }
 
-    public void save(long mSecond, float xPosi , float yPosi) {
+    public void save(long mSecond, float xPosi, float yPosi, UserInfo user) {
 
         Calendar calendar = Calendar.getInstance();
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
@@ -55,7 +55,8 @@ public class saveData {
                     file.createNewFile();
                     csvWriter = new PrintWriter(new FileWriter(file, true));
                     int last = 0;
-                    csvWriter.print("TbClth [" + (month + 1) + "/" + day + "/" + year + "],milliSecond,xPosition,yPosition");
+                    csvWriter.print("TbClth [" + month + "/" + day + "/" + year + "],Gender: " +  user.getGender() + ",Age: " + user.getAge() + "," +user.getMoreInfo() + "\nTime,MilliSecond,XPosition,YPosition");
+
                     csvWriter.append('\n');
                     for (int i = 0; i < string.length(); i++) {
                         if (string.charAt(i) == ';') {
@@ -74,7 +75,7 @@ public class saveData {
                 try {
                     file.createNewFile();
                     csvWriter = new PrintWriter(new FileWriter(file, true));
-                    csvWriter.print("TbClth [" + (month + 1) + "/" + day + "/" + year + "],milliSecond,xPosition,yPosition");
+                    csvWriter.print("TbClth [" + month + "/" + day + "/" + year + "],Gender: " + user.getGender() + "Age: " + user.getAge() + user.getMoreInfo() + "\nTime,MilliSecond,XPosition,YPosition");
                     csvWriter.append('\n');
                     int last = 0;
 
