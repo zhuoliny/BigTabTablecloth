@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <ScrollView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true">
 
@@ -19,7 +19,7 @@
                 android:id="@+id/viewList"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="30sp"
+                android:textSize="28sp"
                 android:layout_gravity="center_horizontal"
                 android:text="Choose Saved Sequences" />
 
@@ -37,19 +37,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
-                android:textSize="32sp"
+                android:textSize="28sp"
                 android:textColor="#317ef9"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:text="Each entry should less than 9; No need to separate each entry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:textColor="#000000"
                 android:textAlignment="center"/>
 
             <EditText
                 android:id="@+id/seqIndex"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Each entry should less than 9; No need to separate each entry"
+                android:hint="Enter the Sequence"
                 android:inputType="text"
                 android:textAlignment="center"
                 android:textColor="#000000"
-                android:textSize="32sp"
+                android:textSize="28sp"
                 android:textStyle="normal" />
 
             <Button
@@ -58,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="Use it!"
-                android:textSize="30sp" />
+                android:textSize="28sp" />
 
                 <TextView
                     android:text="OR"
@@ -71,11 +80,11 @@
                     android:textAlignment="center"/>
 
             <TextView
-                android:text="Label your new sequence: "
+                android:text="If you want to save the sequence, please label your new sequence: "
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
-                android:textSize="32sp"
+                android:textSize="28sp"
                 android:textColor="#317ef9"
                 android:textAlignment="center"/>
 
@@ -83,11 +92,11 @@
                 android:id="@+id/seqLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Save the new sequence? Label it first!"
+                android:hint="Enter the Label"
                 android:inputType="text"
                 android:textAlignment="center"
                 android:textColor="#000000"
-                android:textSize="32sp"
+                android:textSize="28sp"
                 android:textStyle="normal" />
 
             <Button
@@ -95,7 +104,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:textSize="30sp"
+                android:textSize="28sp"
                 android:text="Use and Save it!" />
 
         </LinearLayout>

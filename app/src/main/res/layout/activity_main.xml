@@ -128,16 +128,6 @@
                 android:textStyle="normal"
                 android:textAlignment="center" />
 
-            <!--
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/Console"
-                android:textSize="27sp"
-                android:text="Console"
-                android:textStyle="normal"
-                android:textAlignment="center" />
-                -->
         </LinearLayout>
     </LinearLayout>
     </ScrollView>

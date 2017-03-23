@@ -314,7 +314,15 @@ public class Console extends Activity {
                     timeLimit.setHint("Please use the correct format");
                     timeLimit.setText("");
                 }
-                if (onlyDigits(checkLightLmt) && onlyDigits(checkTimeLmt)) {
+                if (sequence.isEmpty()) {
+                    Context c = getApplicationContext();
+                    CharSequence text = "Please Select HOW THE LIGHT ACTS";
+                    int time = Toast.LENGTH_SHORT;
+                    Toast t = Toast.makeText(c, text, time);
+                    t.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
+                    t.show();
+                }
+                if (onlyDigits(checkLightLmt) && onlyDigits(checkTimeLmt) && !sequence.isEmpty()) {
                     lightLmt = Integer.parseInt(checkLightLmt);
                     timeLmt = Integer.parseInt(checkTimeLmt);
                     lightLimit.setHintTextColor(Color.LTGRAY);

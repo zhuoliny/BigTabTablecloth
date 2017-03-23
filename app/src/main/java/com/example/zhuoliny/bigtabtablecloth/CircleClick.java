@@ -9,12 +9,15 @@ import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -49,6 +52,7 @@ public class CircleClick extends Activity{
     private int _minute = _cal.get(Calendar.MINUTE);
     private int _second = _cal.get(Calendar.SECOND);
     RelativeLayout _blank;
+    static int radius;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,26 +116,56 @@ public class CircleClick extends Activity{
                 beep.startTone(ToneGenerator.TONE_CDMA_EMERGENCY_RINGBACK, 150);
             }
         }, 8000);
+
+        if (timeLmt>0) {
+            Handler timer = new Handler();
+            timer.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    gameOver();
+                }
+            }, (timeLmt*1000+8000));
+        }
     }
 
     public void setupLights() {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int height = displayMetrics.heightPixels;
+        int width = displayMetrics.widthPixels;
+
+        final RelativeLayout layoutOuter = (RelativeLayout) findViewById(R.id.outerSquare);
+        ViewGroup.LayoutParams paramsOuter = layoutOuter.getLayoutParams();
+        paramsOuter.height = height*7/8;
+        paramsOuter.width = height*7/8;
+        layoutOuter.setLayoutParams(paramsOuter);
+
+        final RelativeLayout layoutInner = (RelativeLayout) findViewById(R.id.innerSquare);
+        ViewGroup.LayoutParams paramsInner = layoutInner.getLayoutParams();
+        paramsInner.height = height*2/3;
+        paramsInner.width = height*2/3;
+        layoutInner.setLayoutParams(paramsInner);
+
+        radius = height*2/3;
+
         for (int i=0;i<buttons.length;i++) {
             if (size == 0) {
                 ViewGroup.LayoutParams params = buttons[i].getLayoutParams();
-                params.width = 100;
-                params.height = 100;
+                params.width = radius/5;
+                params.height = radius/5;
                 buttons[i].setLayoutParams(params);
             }
             if (size == 1) {
                 ViewGroup.LayoutParams params = buttons[i].getLayoutParams();
-                params.width = 150;
-                params.height = 150;
+                params.width = radius/4;
+                params.height = radius/4;
                 buttons[i].setLayoutParams(params);
             }
             if (size == 2) {
                 ViewGroup.LayoutParams params = buttons[i].getLayoutParams();
-                params.width = 200;
-                params.height = 200;
+                params.width = radius/3;
+                params.height = radius/3;
+                Log.i("something: ", "hello");
                 buttons[i].setLayoutParams(params);
             }
             buttons[i].setOnTouchListener(new View.OnTouchListener() {
@@ -189,20 +223,8 @@ public class CircleClick extends Activity{
     }
 
     public void gameOver() {
-        /*
-        for (int i=0;i<buttons.length;i++) {
-            buttons[i].setBackgroundResource(R.drawable.round_button_grey);
-            onOff.put(buttons[i].getId(), 0);
-        }
-        Context c = getApplicationContext();
-        CharSequence text = "Congrats! The Game Is Completed!";
-        int time = Toast.LENGTH_LONG;
-        Toast t = Toast.makeText(c, text, time);
-        t.show();
-        marker = 0;
-        lightsUp(marker);
-        */
         gameoverPopup = new Dialog(this);
+        gameoverPopup.setCanceledOnTouchOutside(false);
         gameoverPopup.setContentView(R.layout.gameover_popup);
         saveYes = (Button) gameoverPopup.findViewById(R.id.saveYes);
         saveYes.setOnClickListener(new View.OnClickListener() {

@@ -10,11 +10,10 @@ import android.widget.Button;
 import android.widget.EditText;
 
 public class MainActivity extends Activity {
-    Button save, console, female, male;
+    Button save, female, male;
     EditText userName, moreInfo, age;
     String gender;
     private UserInfo user;
-    private writeCSV info;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +27,6 @@ public class MainActivity extends Activity {
 
         gender = ""; // unknown
         female = (Button) findViewById(R.id.Female);
-        male = (Button) findViewById(R.id.Male);
         female.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -39,6 +37,8 @@ public class MainActivity extends Activity {
                 gender = "F";
             }
         });
+
+        male = (Button) findViewById(R.id.Male);
         male.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,10 +54,24 @@ public class MainActivity extends Activity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                user = new UserInfo(userName.getText().toString(), gender, Integer.parseInt(age.getText().toString()), moreInfo.getText().toString());
-                Intent toConsole = new Intent(getApplicationContext(), Console.class);
-                toConsole.putExtra("aUser", user);
-                startActivity(toConsole);
+                if (userName.getText().toString().isEmpty()) {
+                    userName.setHint("Please Enter the Name");
+                    userName.setHintTextColor(Color.RED);
+                }
+                if (age.getText().toString().isEmpty()) {
+                    age.setHint("Please Enter the age");
+                    age.setHintTextColor(Color.RED);
+                }
+                String mInfo = "";
+                if (!moreInfo.getText().toString().isEmpty()) {
+                    mInfo = moreInfo.getText().toString();
+                }
+                if (!userName.getText().toString().isEmpty() && !age.getText().toString().isEmpty()) {
+                    user = new UserInfo(userName.getText().toString(), gender, Integer.parseInt(age.getText().toString()), mInfo);
+                    Intent toConsole = new Intent(getApplicationContext(), Console.class);
+                    toConsole.putExtra("aUser", user);
+                    startActivity(toConsole);
+                }
             }
         });
     }

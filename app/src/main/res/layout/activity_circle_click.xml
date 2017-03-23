@@ -24,6 +24,7 @@
     <RelativeLayout
         android:layout_width="470dp"
         android:layout_height="470dp"
+        android:id="@+id/innerSquare"
         android:layout_centerInParent="true">
 
         <Button
@@ -60,44 +61,45 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="630dp"
-        android:layout_height="630dp"
-        android:layout_centerInParent="true">
+        <RelativeLayout
+            android:id="@+id/outerSquare"
+            android:layout_width="630dp"
+            android:layout_height="630dp"
+            android:layout_centerInParent="true">
 
-    <Button
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:background="@drawable/round_button_grey"
-        android:id="@+id/btn1"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentTop="true"/>
+            <Button
+                android:id="@+id/btn1"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/round_button_grey" />
 
-        <Button
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:background="@drawable/round_button_grey"
-            android:id="@+id/btn3"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"/>
+            <Button
+                android:id="@+id/btn3"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/round_button_grey" />
 
-    <Button
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:background="@drawable/round_button_grey"
-        android:id="@+id/btn5"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"/>
+            <Button
+                android:id="@+id/btn5"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/round_button_grey" />
 
-    <Button
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:background="@drawable/round_button_grey"
-        android:id="@+id/btn7"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"/>
+            <Button
+                android:id="@+id/btn7"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/round_button_grey" />
 
-    </RelativeLayout>
+        </RelativeLayout>
     </RelativeLayout>
 
 </RelativeLayout>
