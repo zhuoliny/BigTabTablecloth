@@ -27,6 +27,9 @@ public class Console extends Activity {
     private int size, color, lightLmt, timeLmt;
 
     private UserInfo user;
+    Button seqRepeat, lgtRepeat;
+    Boolean seqORlgt;
+    int modeChose;
     Button sequential, random, customize;
     Button large, medium, small;
     Button green, red, blue;
@@ -61,6 +64,30 @@ public class Console extends Activity {
 
         lightLmt = -1;
         lightLimit = (EditText) findViewById(R.id.lightLimit);
+        seqORlgt = true; // true: light or false: sequence // default: light(true)
+        lgtRepeat = (Button) findViewById(R.id.lightLmt);
+        lgtRepeat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                lgtRepeat.setBackgroundColor(Color.BLACK);
+                lgtRepeat.setTextColor(Color.WHITE);
+                seqORlgt = true;
+                seqRepeat.setBackgroundColor(Color.LTGRAY);
+                seqRepeat.setTextColor(Color.BLACK);
+            }
+        });
+        seqRepeat = (Button) findViewById(R.id.sequenceLmt);
+        seqRepeat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                seqRepeat.setBackgroundColor(Color.BLACK);
+                seqRepeat.setTextColor(Color.WHITE);
+                seqORlgt = false;
+                lgtRepeat.setBackgroundColor(Color.LTGRAY);
+                lgtRepeat.setTextColor(Color.WHITE);
+            }
+        });
+
         timeLmt = 0; // default time limit is infinity
         timeLimit = (EditText) findViewById(R.id.timeLimit);
 
@@ -146,6 +173,7 @@ public class Console extends Activity {
             }
         });
 
+        modeChose = 0; // nothing chose
         sequence = new ArrayList<Integer>();
         sequential = (Button) findViewById(R.id.sequential);
         random = (Button) findViewById(R.id.random);
@@ -153,15 +181,25 @@ public class Console extends Activity {
         sequential.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sequential.setBackgroundColor(Color.BLACK);
-                sequential.setTextColor(Color.WHITE);
-                random.setBackgroundColor(Color.LTGRAY);
-                random.setTextColor(Color.BLACK);
-                customize.setBackgroundColor(Color.LTGRAY);
-                customize.setTextColor(Color.BLACK);
-                sequence.clear();
-                for (int i=0; i<9; i++) {
-                    sequence.add(i);
+                if (seqORlgt) {
+                    modeChose = 1; // sequential chose
+                    sequential.setBackgroundColor(Color.BLACK);
+                    sequential.setTextColor(Color.WHITE);
+                    random.setBackgroundColor(Color.LTGRAY);
+                    random.setTextColor(Color.BLACK);
+                    customize.setBackgroundColor(Color.LTGRAY);
+                    customize.setTextColor(Color.BLACK);
+                    sequence.clear();
+                    for (int i = 0; i < 9; i++) {
+                        sequence.add(i);
+                    }
+                }else{
+                    Context c = getApplicationContext();
+                    CharSequence text = "Please Select LIGHT REPEAT for choosing SEQUENTIAL";
+                    int time = Toast.LENGTH_SHORT;
+                    Toast t = Toast.makeText(c, text, time);
+                    t.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
+                    t.show();
                 }
             }
         });
@@ -169,20 +207,23 @@ public class Console extends Activity {
         random.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sequential.setBackgroundColor(Color.LTGRAY);
-                sequential.setTextColor(Color.BLACK);
-                random.setBackgroundColor(Color.BLACK);
-                random.setTextColor(Color.WHITE);
-                customize.setBackgroundColor(Color.LTGRAY);
-                customize.setTextColor(Color.BLACK);
-                sequence.clear();
-                sequence.add(generateR());
-                for (int i=0;i<24;i++) {
-                    int temp = generateR();
-                    while (temp == sequence.get(sequence.size()-1)) {
-                        temp = generateR();
-                    }
-                    sequence.add(temp);
+                if (seqORlgt) {
+                    modeChose = 2; // random chose
+                    sequential.setBackgroundColor(Color.LTGRAY);
+                    sequential.setTextColor(Color.BLACK);
+                    random.setBackgroundColor(Color.BLACK);
+                    random.setTextColor(Color.WHITE);
+                    customize.setBackgroundColor(Color.LTGRAY);
+                    customize.setTextColor(Color.BLACK);
+                    sequence.clear();
+                    sequence.add(generateR());
+                }else{
+                    Context c = getApplicationContext();
+                    CharSequence text = "Please Select LIGHT REPEAT for choosing RANDOM";
+                    int time = Toast.LENGTH_SHORT;
+                    Toast t = Toast.makeText(c, text, time);
+                    t.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
+                    t.show();
                 }
             }
         });
@@ -322,8 +363,21 @@ public class Console extends Activity {
                     t.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
                     t.show();
                 }
-                if (onlyDigits(checkLightLmt) && onlyDigits(checkTimeLmt) && !sequence.isEmpty()) {
+                if (onlyDigits(checkLightLmt) && onlyDigits(checkTimeLmt)) {
                     lightLmt = Integer.parseInt(checkLightLmt);
+                    if (!seqORlgt) {
+                        lightLmt = lightLmt*sequence.size();
+                    }else {
+                        if (seqORlgt && modeChose==2) {
+                            for (int i = 0; i < lightLmt; i++) {
+                                int temp = generateR();
+                                while (temp == sequence.get(sequence.size() - 1)) {
+                                    temp = generateR();
+                                }
+                                sequence.add(temp);
+                            }
+                        }
+                    }
                     timeLmt = Integer.parseInt(checkTimeLmt);
                     lightLimit.setHintTextColor(Color.LTGRAY);
                     lightLimit.setHint("Just enter the integer you want");

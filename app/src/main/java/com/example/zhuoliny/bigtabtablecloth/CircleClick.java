@@ -9,6 +9,7 @@ import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.CalendarContract;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -37,13 +38,11 @@ public class CircleClick extends Activity{
     private HashMap<Integer, Integer> onOff, tracker;
     private ArrayList<Integer> sequence;
     private int size, color, lightLmt, timeLmt;
-    //private saveData data;
     private writeCSV outputData;
     private float xPosition, yPosition;
-    private long timeInMS;
     ArrayList<String> allTouch;
-    Dialog gameoverPopup;
-    Button saveYes, saveNo;
+    Dialog gameoverPopup, passPopup;
+    Button saveYes, saveNo, pass, passYes, passNo;
     private Calendar _cal = Calendar.getInstance();
     private int _month = _cal.get(Calendar.MONTH)+1;
     private int _day = _cal.get(Calendar.DAY_OF_MONTH);
@@ -99,6 +98,15 @@ public class CircleClick extends Activity{
             @Override
             public void run() {
                 setContentView(R.layout.activity_circle_click);
+
+                pass = (Button) findViewById(R.id.pass);
+                pass.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        passGame();
+                    }
+                });
+
                 buttons = new Button[9];
                 buttons[0] = (Button) findViewById(R.id.btn0);
                 buttons[1] = (Button) findViewById(R.id.btn1);
@@ -165,7 +173,6 @@ public class CircleClick extends Activity{
                 ViewGroup.LayoutParams params = buttons[i].getLayoutParams();
                 params.width = radius/3;
                 params.height = radius/3;
-                Log.i("something: ", "hello");
                 buttons[i].setLayoutParams(params);
             }
             buttons[i].setOnTouchListener(new View.OnTouchListener() {
@@ -251,17 +258,39 @@ public class CircleClick extends Activity{
         gameoverPopup.show();
     }
 
+    public void passGame() {
+        passPopup = new Dialog(this);
+        passPopup.setContentView(R.layout.pass_popup);
+        passPopup.setCanceledOnTouchOutside(false);
+        passYes = (Button) passPopup.findViewById(R.id.passYes);
+        passYes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                gameOver();
+                passPopup.dismiss();
+            }
+        });
+        passNo = (Button) passPopup.findViewById(R.id.passNo);
+        passNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                passPopup.dismiss();
+            }
+        });
+        passPopup.show();
+    }
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         if(event.getAction() == MotionEvent.ACTION_DOWN) {
             xPosition = event.getRawX();
             yPosition = event.getRawY();
-            timeInMS= System.currentTimeMillis();
             Calendar cal = Calendar.getInstance();
             int hour = cal.get(Calendar.HOUR_OF_DAY);
             int minute = cal.get(Calendar.MINUTE);
             int second = cal.get(Calendar.SECOND);
-            String aTouch = String.valueOf(hour)+":"+String.valueOf(minute)+":"+String.valueOf(second)+","+String.valueOf(timeInMS)+","+String.valueOf(xPosition)+","+String.valueOf(yPosition);
+            int mSecond = cal.get(Calendar.MILLISECOND);
+            String aTouch = String.valueOf(hour)+":"+String.valueOf(minute)+":"+String.valueOf(second)+":"+String.valueOf(mSecond)+","+String.valueOf(xPosition)+","+String.valueOf(yPosition);
             allTouch.add(aTouch);
         }
         return super.dispatchTouchEvent(event);

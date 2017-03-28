@@ -7,6 +7,13 @@
     android:focusableInTouchMode="true"
     tools:context="com.example.zhuoliny.bigtabtablecloth.CircleClick">
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pass"
+        android:id="@+id/pass"
+        android:textStyle="normal"/>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -19,7 +26,6 @@
         android:background="@drawable/round_button_grey"
         android:id="@+id/btn0"
         android:layout_centerInParent="true"/>
-
 
     <RelativeLayout
         android:layout_width="470dp"

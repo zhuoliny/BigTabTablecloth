@@ -14,7 +14,7 @@ public class writeCSV {
     private static final String COMMA = ",";
     private static final Character BREAK = '\n';
     private static final String FILE_MARKER = "Name,Gender,Age,Description";
-    private static final String FILE_HEADER = "StandardTime,Millisecond,X_Position,Y_Position";
+    private static final String FILE_HEADER = "StandardTime,X_Position,Y_Position";
     private static scannerHelper sHelper;
 
     public static void writeCsvFile(Context c, String fileName, ArrayList<String> allTouch, UserInfo userInfo) {
@@ -30,6 +30,7 @@ public class writeCSV {
                     file.createNewFile();
                     csvWriter = new PrintWriter(new FileWriter(file, true));
                     csvWriter.print(FILE_MARKER);
+                    csvWriter.print(BREAK);
                     csvWriter.append(BREAK);
                     csvWriter.print(userInfo.getName()+COMMA+userInfo.getGender()+COMMA+userInfo.getAge()+COMMA+userInfo.getMoreInfo());
                     csvWriter.append(BREAK);
