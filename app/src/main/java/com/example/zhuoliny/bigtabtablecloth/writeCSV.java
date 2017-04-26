@@ -14,10 +14,11 @@ public class writeCSV {
     private static final String COMMA = ",";
     private static final Character BREAK = '\n';
     private static final String FILE_MARKER = "Name,Gender,Age,Description";
-    private static final String FILE_HEADER = "StandardTime,X_Position,Y_Position";
+    private static final String FILE_HEADER = "TargetNumber,StandardTime,X_Position,Y_Position,OnTarget,TimeGap(mS),Distance(pixel),Speed(pixel/mS)";
     private static scannerHelper sHelper;
 
-    public static void writeCsvFile(Context c, String fileName, ArrayList<String> allTouch, UserInfo userInfo) {
+
+    public static void writeCsvFile(Context c, String fileName, ArrayList<Touch> allTouch, UserInfo userInfo) {
         try {
             if (isExternalStorageWritable()) {
                 File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName);
@@ -36,8 +37,8 @@ public class writeCSV {
                     csvWriter.append(BREAK);
                     csvWriter.print(FILE_HEADER);
                     csvWriter.append(BREAK);
-                    for (String aTouch : allTouch) {
-                        csvWriter.print(aTouch);
+                    for (Touch aTouch : allTouch) {
+                        csvWriter.print(aTouch.get_target()+COMMA+aTouch.get_time()+COMMA+aTouch.get_xPosition()+COMMA+aTouch.get_yPosition()+COMMA+aTouch.get_onTarget()+COMMA+aTouch.get_timeGap()+COMMA+aTouch.get_distance()+COMMA+aTouch.get_speed());
                         csvWriter.append(BREAK);
                     }
                     csvWriter.close();
