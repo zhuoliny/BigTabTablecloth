@@ -193,8 +193,8 @@ public class CircleClick extends Activity {
                         v.setBackgroundResource(R.drawable.round_button_grey);
                         onOff.put(v.getId(), 0);
                         onTarget = true;
-                        allTouch.get(allTouch.size()-1).set_onTarget(onTarget);
-                        allTouch.get(allTouch.size()-1).set_target(tracker.get(v.getId()));
+                        allTouch.get(allTouch.size() - 1).set_onTarget(onTarget);
+                        allTouch.get(allTouch.size() - 1).set_target(tracker.get(v.getId()));
                         marker++;
                         if (marker < lightLmt) {
                             lightsUp(marker);
@@ -376,12 +376,12 @@ public class CircleClick extends Activity {
             String time_temp = String.valueOf(hour) + ":" + String.valueOf(minute) + ":" + String.valueOf(second) + ":" + String.valueOf(mSecond);
             Touch newTouch = new Touch(time_temp, msTime, xPosition, yPosition);
             if (!allTouch.isEmpty()) {
-                Touch previous = allTouch.get(allTouch.size()-1);
+                Touch previous = allTouch.get(allTouch.size() - 1);
                 long timeGap_temp = 0;
                 timeGap_temp = msTime - previous.get_mSecond();
                 newTouch.set_timeGap(timeGap_temp);
 
-                double dist_temp = (xPosition-previous.get_xPosition())*(xPosition-previous.get_xPosition())+(yPosition-previous.get_yPosition())*(yPosition-previous.get_yPosition());
+                double dist_temp = (xPosition - previous.get_xPosition()) * (xPosition - previous.get_xPosition()) + (yPosition - previous.get_yPosition()) * (yPosition - previous.get_yPosition());
                 dist_temp = Math.sqrt(dist_temp);
                 newTouch.set_distance(dist_temp);
 
@@ -412,19 +412,19 @@ public class CircleClick extends Activity {
 
     public void dataAnalysis(ArrayList<Touch> allTouch, ArrayList<int[]> xyPs) {
         _touchCount = allTouch.size();
-        long dura = allTouch.get(allTouch.size()-1).get_mSecond() - allTouch.get(0).get_mSecond();
+        long dura = allTouch.get(allTouch.size() - 1).get_mSecond() - allTouch.get(0).get_mSecond();
         _duration = (double) (dura / 1000.0);
         double countOnTarget = 0;
         _positonError = 0;
-        for (int i=0; i<allTouch.size(); i++) {
+        for (int i = 0; i < allTouch.size(); i++) {
             if (allTouch.get(i).get_onTarget()) {
                 countOnTarget++;
-            }else{
+            } else {
                 int target = allTouch.get(i).get_target();
                 int[] tarP = xyPs.get(target);
                 int touchxP = allTouch.get(i).get_xPosition();
                 int touchyP = allTouch.get(i).get_yPosition();
-                double dist_temp = (touchxP - tarP[0])*(touchxP - tarP[0]) + (touchyP - tarP[1])*(touchyP - tarP[1]);
+                double dist_temp = (touchxP - tarP[0]) * (touchxP - tarP[0]) + (touchyP - tarP[1]) * (touchyP - tarP[1]);
                 dist_temp = Math.sqrt(dist_temp);
                 _positonError = _positonError + dist_temp;
             }
