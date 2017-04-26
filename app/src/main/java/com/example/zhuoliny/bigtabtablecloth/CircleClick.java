@@ -52,6 +52,7 @@ public class CircleClick extends Activity{
     private int _second = _cal.get(Calendar.SECOND);
     RelativeLayout _blank;
     static int radius;
+    private ArrayList<aTouch> dataTable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +76,8 @@ public class CircleClick extends Activity{
         allTouch = new ArrayList<String>();
         tracker = new HashMap<Integer, Integer>();
         onOff = new HashMap<Integer, Integer>();
+
+        dataTable = new ArrayList<aTouch>();
 
         //game 3-2-1 countdown
         for (int i=3;i>0;i--) {
@@ -301,5 +304,13 @@ public class CircleClick extends Activity{
         outputData = new writeCSV();
         Log.i("All Touch: ", allTouch.toString());
         outputData.writeCsvFile(this, fileName.toString(), allTouch, user);
+    }
+
+    // targetindex, distance, hitormiss needed
+    public void dataAnalysis(String time, float mSecond, float xP, float yP, boolean hitOrMiss, ) {
+        if (!dataTable.isEmpty()) {
+            float timeGap = mSecond - dataTable.get(dataTable.size()-1).getMSecond();
+            tempTouch = new aTouch(time, xP, yP, timeGap, ,mSecond);
+        }
     }
 }
