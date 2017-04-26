@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
+    tools:context="com.example.zhuoliny.bigtabtablecloth.MainActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_centerInParent="true"
+            android:layout_width="match_parent"
+            android:paddingTop="15dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Total Number of Touches:"
+                android:textColor="#2c44c1"
+                android:textSize="32sp"
+                android:textAlignment="center"
+                android:textStyle="bold"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:textStyle="normal"
+                android:textSize="32sp"
+                android:id="@+id/countTouch"
+                android:textAlignment="center"
+                android:inputType="text" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Total Duration (seconds):"
+                android:textColor="#2c44c1"
+                android:textSize="32sp"
+                android:paddingTop="15dp"
+                android:textAlignment="center"
+                android:textStyle="bold"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:textStyle="normal"
+                android:textSize="32sp"
+                android:id="@+id/duration"
+                android:textAlignment="center"
+                android:inputType="number" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Accuracy (out of 1.0)"
+                android:textColor="#2c44c1"
+                android:textSize="32sp"
+                android:paddingTop="15dp"
+                android:textAlignment="center"
+                android:textStyle="bold"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:textStyle="normal"
+                android:textSize="32sp"
+                android:id="@+id/accuracy"
+                android:textAlignment="center"
+                android:inputType="text" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Average Position Error (pixels)"
+                android:textColor="#2c44c1"
+                android:textSize="32sp"
+                android:paddingTop="15dp"
+                android:textAlignment="center"
+                android:textStyle="bold"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:textStyle="normal"
+                android:textSize="32sp"
+                android:id="@+id/avgPE"
+                android:textAlignment="center"
+                android:inputType="text" />
+
+            <LinearLayout
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/close"
+                    android:textSize="27sp"
+                    android:text="Close"
+                    android:textStyle="normal"
+                    android:textAlignment="center" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>
