@@ -2,7 +2,6 @@ package com.example.zhuoliny.bigtabtablecloth;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
@@ -10,7 +9,6 @@ import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.CalendarContract;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
@@ -18,15 +16,11 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -57,7 +51,7 @@ public class CircleClick extends Activity {
     static private boolean alreadySetup, onTarget;
     private int _touchCount;
     private double _duration;
-    private double _accuracy, _accuracyL, _accuracyR, _positonError, _positionErrorL, _positionErrorR;
+    private double _accuracy, _accuracyL, _accuracyR, _positionError, _positionErrorL, _positionErrorR;
     EditText _tCount, _dura, _acc, _accL, _accR, _pError, _pErrorL, _pErrorR;
 
     @Override
@@ -319,7 +313,7 @@ public class CircleClick extends Activity {
         _accR.setClickable(false);
 
         _pError = (EditText) resultsView.findViewById(R.id.avgPE);
-        _pError.setText(Double.toString(_positonError));
+        _pError.setText(Double.toString(_positionError));
         _pError.setFocusable(false);
         _pError.setFocusableInTouchMode(false);
         _pError.setClickable(false);
@@ -425,7 +419,7 @@ public class CircleClick extends Activity {
         _duration = (double) (dura / 1000.0);
         double countOnTargetL = 0, countOnTargetR = 0, countOnTarget = 0;
         double countTargetL = 0, countTargetR = 0;
-        _positonError = 0;
+        _positionError = 0;
         _positionErrorL = 0;
         _positionErrorR = 0;
         for (int i = 0; i < allTouch.size(); i++) {
@@ -451,7 +445,7 @@ public class CircleClick extends Activity {
                 int touchyP = allTouch.get(i).get_yPosition();
                 double dist_temp = (touchxP - tarP[0]) * (touchxP - tarP[0]) + (touchyP - tarP[1]) * (touchyP - tarP[1]);
                 dist_temp = Math.sqrt(dist_temp);
-                _positonError = _positonError + dist_temp;
+                _positionError = _positionError + dist_temp;
                 if (allTouch.get(i).get_target()==2 || allTouch.get(i).get_target()==3 || allTouch.get(i).get_target()==4) {
                     _positionErrorL = _positionErrorL + dist_temp;
                 }
@@ -466,8 +460,15 @@ public class CircleClick extends Activity {
         _accuracy = countOnTarget / _touchCount;
         _accuracyL = countOnTargetL / countTargetL;
         _accuracyR = countOnTargetR / countTargetR;
-        _positonError = _positonError / (_touchCount - countOnTarget);
-        _positionErrorL = _positionErrorL / (countTargetL - countOnTargetL);
-        _positionErrorR = _positionErrorR / (countTargetR - countOnTargetR);
+
+        if (_touchCount!=countOnTarget) {
+            _positionError = _positionError / (_touchCount - countOnTarget);
+        }
+        if (countOnTargetL!=countTargetL) {
+            _positionErrorL = _positionErrorL / (countTargetL - countOnTargetL);
+        }
+        if (countOnTargetR!=countTargetR) {
+            _positionErrorR = _positionErrorR / (countTargetR - countOnTargetR);
+        }
     }
 }
