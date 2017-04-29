@@ -32,8 +32,8 @@ public class writeCSV {
                     csvWriter = new PrintWriter(new FileWriter(file, true));
                     csvWriter.print(FILE_MARKER);
                     csvWriter.print(BREAK);
-                    csvWriter.append(BREAK);
                     csvWriter.print(userInfo.getName()+COMMA+userInfo.getGender()+COMMA+userInfo.getAge()+COMMA+userInfo.getMoreInfo());
+                    csvWriter.append(BREAK);
                     csvWriter.append(BREAK);
                     csvWriter.print(FILE_HEADER);
                     csvWriter.append(BREAK);
