@@ -84,7 +84,7 @@ public class Console extends Activity {
                 seqRepeat.setTextColor(Color.WHITE);
                 seqORlgt = false;
                 lgtRepeat.setBackgroundColor(Color.LTGRAY);
-                lgtRepeat.setTextColor(Color.WHITE);
+                lgtRepeat.setTextColor(Color.BLACK);
             }
         });
 

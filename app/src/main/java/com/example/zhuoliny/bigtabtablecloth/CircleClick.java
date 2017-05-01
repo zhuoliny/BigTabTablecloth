@@ -2,33 +2,28 @@ package com.example.zhuoliny.bigtabtablecloth;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.CalendarContract;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
+import android.widget.TextView;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 
 public class CircleClick extends Activity {
 
@@ -51,20 +46,22 @@ public class CircleClick extends Activity {
     private int _hour = _cal.get(Calendar.HOUR_OF_DAY);
     private int _minute = _cal.get(Calendar.MINUTE);
     private int _second = _cal.get(Calendar.SECOND);
-    RelativeLayout _blank;
     static int radius;
     static ArrayList<int[]> positions;
     static private boolean alreadySetup, onTarget;
     private int _touchCount;
     private double _duration;
-    private double _accuracy, _positonError;
-    EditText _tCount, _dura, _acc, _pError;
-    int countPass = 0;
+    private double _accuracy, _accuracyL, _accuracyR, _positionError, _positionErrorL, _positionErrorR;
+    EditText _tCount, _dura, _acc, _accL, _accR, _pError, _pErrorL, _pErrorR;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        _blank = new RelativeLayout(this);
+        TextView _blank = new TextView(this);
+        _blank.setGravity(Gravity.CENTER);
+        _blank.setText("Start in 3...2...1...");
+        _blank.setTextSize(TypedValue.COMPLEX_UNIT_SP, 50);
+        _blank.setTextColor(Color.parseColor("#2c44c1"));
         setContentView(_blank);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
@@ -84,22 +81,6 @@ public class CircleClick extends Activity {
         tracker = new HashMap<Integer, Integer>();
         onOff = new HashMap<Integer, Integer>();
 
-        //game 3-2-1 countdown
-        for (int i = 3; i > 0; i--) {
-            Context c = getApplicationContext();
-            CharSequence text = Integer.toString(i);
-            int time = Toast.LENGTH_SHORT;
-            Toast t = Toast.makeText(c, text, time);
-            t.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
-            t.show();
-        }
-        Context c = getApplicationContext();
-        CharSequence text = "Go!";
-        int time = Toast.LENGTH_SHORT;
-        Toast t = Toast.makeText(c, text, time);
-        t.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
-        t.show();
-
         // game on
         positions = new ArrayList<int[]>();
         buttons = new Button[9];
@@ -115,7 +96,6 @@ public class CircleClick extends Activity {
                 pass.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        countPass++;
                         passGame();
                     }
                 });
@@ -131,11 +111,11 @@ public class CircleClick extends Activity {
                 buttons[8] = (Button) findViewById(R.id.btn8);
                 signOnOff();
                 setupLights();
-                lightsUp(marker);
+                lightsUp();
                 ToneGenerator beep = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
                 beep.startTone(ToneGenerator.TONE_CDMA_EMERGENCY_RINGBACK, 150);
             }
-        }, 8000);
+        }, 3000);
 
         if (timeLmt > 0) {
             Handler timer = new Handler();
@@ -143,7 +123,6 @@ public class CircleClick extends Activity {
                 @Override
                 public void run() {
                     viewResults();
-                    //gameOver();
                 }
             }, (timeLmt * 1000 + 8000));
         }
@@ -196,13 +175,11 @@ public class CircleClick extends Activity {
                         onOff.put(v.getId(), 0);
                         onTarget = true;
                         allTouch.get(allTouch.size() - 1).set_onTarget(onTarget);
-                        allTouch.get(allTouch.size() - 1).set_target(tracker.get(v.getId()));
                         marker++;
                         if (marker < lightLmt) {
-                            lightsUp(marker);
+                            lightsUp();
                         } else {
                             viewResults();
-                            //gameOver();
                         }
                         return true;
                     }
@@ -220,7 +197,7 @@ public class CircleClick extends Activity {
         }
     }
 
-    public void lightsUp(int m) {
+    public void lightsUp() {
         if (sequence.size() < lightLmt) {
             int firstRoundLimit = sequence.size();
             int round = lightLmt / firstRoundLimit;
@@ -323,11 +300,35 @@ public class CircleClick extends Activity {
         _acc.setFocusableInTouchMode(false);
         _acc.setClickable(false);
 
+        _accL = (EditText) resultsView.findViewById(R.id.accuracyL);
+        _accL.setText(Double.toString(_accuracyL));
+        _accL.setFocusable(false);
+        _accL.setFocusableInTouchMode(false);
+        _accL.setClickable(false);
+
+        _accR = (EditText) resultsView.findViewById(R.id.accuracyR);
+        _accR.setText(Double.toString(_accuracyR));
+        _accR.setFocusable(false);
+        _accR.setFocusableInTouchMode(false);
+        _accR.setClickable(false);
+
         _pError = (EditText) resultsView.findViewById(R.id.avgPE);
-        _pError.setText(Double.toString(_positonError));
+        _pError.setText(Double.toString(_positionError));
         _pError.setFocusable(false);
         _pError.setFocusableInTouchMode(false);
         _pError.setClickable(false);
+
+        _pErrorL = (EditText) resultsView.findViewById(R.id.avgPEL);
+        _pErrorL.setText(Double.toString(_positionErrorL));
+        _pErrorL.setFocusable(false);
+        _pErrorL.setFocusableInTouchMode(false);
+        _pErrorL.setClickable(false);
+
+        _pErrorR= (EditText) resultsView.findViewById(R.id.avgPER);
+        _pErrorR.setText(Double.toString(_positionErrorR));
+        _pErrorR.setFocusable(false);
+        _pErrorR.setFocusableInTouchMode(false);
+        _pErrorR.setClickable(false);
 
         resultClose = (Button) resultsView.findViewById(R.id.close);
         resultClose.setOnClickListener(new View.OnClickListener() {
@@ -350,7 +351,6 @@ public class CircleClick extends Activity {
             @Override
             public void onClick(View view) {
                 viewResults();
-                //gameOver();
                 passPopup.dismiss();
             }
         });
@@ -377,6 +377,7 @@ public class CircleClick extends Activity {
             long msTime = System.currentTimeMillis();
             String time_temp = String.valueOf(hour) + ":" + String.valueOf(minute) + ":" + String.valueOf(second) + ":" + String.valueOf(mSecond);
             Touch newTouch = new Touch(time_temp, msTime, xPosition, yPosition);
+            newTouch.set_target(tracker.get(buttons[sequence.get(marker)].getId()));
             if (!allTouch.isEmpty()) {
                 Touch previous = allTouch.get(allTouch.size() - 1);
                 long timeGap_temp = 0;
@@ -413,25 +414,61 @@ public class CircleClick extends Activity {
     }
 
     public void dataAnalysis(ArrayList<Touch> allTouch, ArrayList<int[]> xyPs) {
-        _touchCount = allTouch.size() - countPass;
+        _touchCount = allTouch.size();
         long dura = allTouch.get(allTouch.size() - 1).get_mSecond() - allTouch.get(0).get_mSecond();
         _duration = (double) (dura / 1000.0);
-        double countOnTarget = 0;
-        _positonError = 0;
+        double countOnTargetL = 0, countOnTargetR = 0, countOnTarget = 0;
+        double countTargetL = 0, countTargetR = 0;
+        _positionError = 0;
+        _positionErrorL = 0;
+        _positionErrorR = 0;
         for (int i = 0; i < allTouch.size(); i++) {
+            if (allTouch.get(i).get_target()==2 || allTouch.get(i).get_target()==3 || allTouch.get(i).get_target()==4) {
+                countTargetL++;
+            }
+            if (allTouch.get(i).get_target()==6 || allTouch.get(i).get_target()==7 || allTouch.get(i).get_target()==8) {
+                countTargetR++;
+            }
             if (allTouch.get(i).get_onTarget()) {
                 countOnTarget++;
+                if (allTouch.get(i).get_target()==2 || allTouch.get(i).get_target()==3 || allTouch.get(i).get_target()==4) {
+                    countOnTargetL++;
+                }
+                if (allTouch.get(i).get_target()==6 || allTouch.get(i).get_target()==7 || allTouch.get(i).get_target()==8) {
+                    countOnTargetR++;
+                }
             } else {
                 int target = allTouch.get(i).get_target();
+                Log.i("target: ", Integer.toString(target));
                 int[] tarP = xyPs.get(target);
                 int touchxP = allTouch.get(i).get_xPosition();
                 int touchyP = allTouch.get(i).get_yPosition();
                 double dist_temp = (touchxP - tarP[0]) * (touchxP - tarP[0]) + (touchyP - tarP[1]) * (touchyP - tarP[1]);
                 dist_temp = Math.sqrt(dist_temp);
-                _positonError = _positonError + dist_temp;
+                _positionError = _positionError + dist_temp;
+                if (allTouch.get(i).get_target()==2 || allTouch.get(i).get_target()==3 || allTouch.get(i).get_target()==4) {
+                    _positionErrorL = _positionErrorL + dist_temp;
+                }
+                if (allTouch.get(i).get_target()==6 || allTouch.get(i).get_target()==7 || allTouch.get(i).get_target()==8) {
+                    _positionErrorR = _positionErrorR + dist_temp;
+                }
             }
         }
+        Log.i("number of l ontarget", Double.toString(countOnTargetL));
+        Log.i("number of l", Double.toString(countTargetL));
+
         _accuracy = countOnTarget / _touchCount;
-        _positonError = _positonError / (_touchCount - countOnTarget);
+        _accuracyL = countOnTargetL / countTargetL;
+        _accuracyR = countOnTargetR / countTargetR;
+
+        if (_touchCount!=countOnTarget) {
+            _positionError = _positionError / (_touchCount - countOnTarget);
+        }
+        if (countOnTargetL!=countTargetL) {
+            _positionErrorL = _positionErrorL / (countTargetL - countOnTargetL);
+        }
+        if (countOnTargetR!=countTargetR) {
+            _positionErrorR = _positionErrorR / (countTargetR - countOnTargetR);
+        }
     }
 }
