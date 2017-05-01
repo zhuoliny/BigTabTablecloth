@@ -59,6 +59,7 @@ public class CircleClick extends Activity {
     private double _duration;
     private double _accuracy, _positonError;
     EditText _tCount, _dura, _acc, _pError;
+    int countPass = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +115,7 @@ public class CircleClick extends Activity {
                 pass.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        countPass++;
                         passGame();
                     }
                 });
@@ -411,7 +413,7 @@ public class CircleClick extends Activity {
     }
 
     public void dataAnalysis(ArrayList<Touch> allTouch, ArrayList<int[]> xyPs) {
-        _touchCount = allTouch.size();
+        _touchCount = allTouch.size() - countPass;
         long dura = allTouch.get(allTouch.size() - 1).get_mSecond() - allTouch.get(0).get_mSecond();
         _duration = (double) (dura / 1000.0);
         double countOnTarget = 0;
