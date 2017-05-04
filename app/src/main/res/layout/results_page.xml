@@ -39,7 +39,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Total Duration (seconds):"
+                android:text="Total Duration of all touches (seconds):"
                 android:textColor="#2c44c1"
                 android:textSize="32sp"
                 android:paddingTop="15dp"

@@ -124,7 +124,7 @@ public class CircleClick extends Activity {
                 public void run() {
                     viewResults();
                 }
-            }, (timeLmt * 1000 + 8000));
+            }, (timeLmt * 1000 + 3000));
         }
     }
 
@@ -414,61 +414,63 @@ public class CircleClick extends Activity {
     }
 
     public void dataAnalysis(ArrayList<Touch> allTouch, ArrayList<int[]> xyPs) {
-        _touchCount = allTouch.size();
-        long dura = allTouch.get(allTouch.size() - 1).get_mSecond() - allTouch.get(0).get_mSecond();
-        _duration = (double) (dura / 1000.0);
-        double countOnTargetL = 0, countOnTargetR = 0, countOnTarget = 0;
-        double countTargetL = 0, countTargetR = 0;
-        _positionError = 0;
-        _positionErrorL = 0;
-        _positionErrorR = 0;
-        for (int i = 0; i < allTouch.size(); i++) {
-            if (allTouch.get(i).get_target()==2 || allTouch.get(i).get_target()==3 || allTouch.get(i).get_target()==4) {
-                countTargetL++;
+        if (!allTouch.isEmpty()) {
+            _touchCount = allTouch.size();
+            long dura = allTouch.get(allTouch.size() - 1).get_mSecond() - allTouch.get(0).get_mSecond();
+            _duration = (double) (dura / 1000.0);
+            double countOnTargetL = 0, countOnTargetR = 0, countOnTarget = 0;
+            double countTargetL = 0, countTargetR = 0;
+            _positionError = 0;
+            _positionErrorL = 0;
+            _positionErrorR = 0;
+            for (int i = 0; i < allTouch.size(); i++) {
+                if (allTouch.get(i).get_target() == 2 || allTouch.get(i).get_target() == 3 || allTouch.get(i).get_target() == 4) {
+                    countTargetL++;
+                }
+                if (allTouch.get(i).get_target() == 6 || allTouch.get(i).get_target() == 7 || allTouch.get(i).get_target() == 8) {
+                    countTargetR++;
+                }
+                if (allTouch.get(i).get_onTarget()) {
+                    countOnTarget++;
+                    if (allTouch.get(i).get_target() == 2 || allTouch.get(i).get_target() == 3 || allTouch.get(i).get_target() == 4) {
+                        countOnTargetL++;
+                    }
+                    if (allTouch.get(i).get_target() == 6 || allTouch.get(i).get_target() == 7 || allTouch.get(i).get_target() == 8) {
+                        countOnTargetR++;
+                    }
+                } else {
+                    int target = allTouch.get(i).get_target();
+                    Log.i("target: ", Integer.toString(target));
+                    int[] tarP = xyPs.get(target);
+                    int touchxP = allTouch.get(i).get_xPosition();
+                    int touchyP = allTouch.get(i).get_yPosition();
+                    double dist_temp = (touchxP - tarP[0]) * (touchxP - tarP[0]) + (touchyP - tarP[1]) * (touchyP - tarP[1]);
+                    dist_temp = Math.sqrt(dist_temp);
+                    _positionError = _positionError + dist_temp;
+                    if (allTouch.get(i).get_target() == 2 || allTouch.get(i).get_target() == 3 || allTouch.get(i).get_target() == 4) {
+                        _positionErrorL = _positionErrorL + dist_temp;
+                    }
+                    if (allTouch.get(i).get_target() == 6 || allTouch.get(i).get_target() == 7 || allTouch.get(i).get_target() == 8) {
+                        _positionErrorR = _positionErrorR + dist_temp;
+                    }
+                }
             }
-            if (allTouch.get(i).get_target()==6 || allTouch.get(i).get_target()==7 || allTouch.get(i).get_target()==8) {
-                countTargetR++;
-            }
-            if (allTouch.get(i).get_onTarget()) {
-                countOnTarget++;
-                if (allTouch.get(i).get_target()==2 || allTouch.get(i).get_target()==3 || allTouch.get(i).get_target()==4) {
-                    countOnTargetL++;
-                }
-                if (allTouch.get(i).get_target()==6 || allTouch.get(i).get_target()==7 || allTouch.get(i).get_target()==8) {
-                    countOnTargetR++;
-                }
-            } else {
-                int target = allTouch.get(i).get_target();
-                Log.i("target: ", Integer.toString(target));
-                int[] tarP = xyPs.get(target);
-                int touchxP = allTouch.get(i).get_xPosition();
-                int touchyP = allTouch.get(i).get_yPosition();
-                double dist_temp = (touchxP - tarP[0]) * (touchxP - tarP[0]) + (touchyP - tarP[1]) * (touchyP - tarP[1]);
-                dist_temp = Math.sqrt(dist_temp);
-                _positionError = _positionError + dist_temp;
-                if (allTouch.get(i).get_target()==2 || allTouch.get(i).get_target()==3 || allTouch.get(i).get_target()==4) {
-                    _positionErrorL = _positionErrorL + dist_temp;
-                }
-                if (allTouch.get(i).get_target()==6 || allTouch.get(i).get_target()==7 || allTouch.get(i).get_target()==8) {
-                    _positionErrorR = _positionErrorR + dist_temp;
-                }
-            }
-        }
-        Log.i("number of l ontarget", Double.toString(countOnTargetL));
-        Log.i("number of l", Double.toString(countTargetL));
+            Log.i("number of l ontarget", Double.toString(countOnTargetL));
+            Log.i("number of l", Double.toString(countTargetL));
 
-        _accuracy = countOnTarget / _touchCount;
-        _accuracyL = countOnTargetL / countTargetL;
-        _accuracyR = countOnTargetR / countTargetR;
+            _accuracy = countOnTarget / _touchCount;
+            _accuracyL = countOnTargetL / countTargetL;
+            _accuracyR = countOnTargetR / countTargetR;
 
-        if (_touchCount!=countOnTarget) {
-            _positionError = _positionError / (_touchCount - countOnTarget);
-        }
-        if (countOnTargetL!=countTargetL) {
-            _positionErrorL = _positionErrorL / (countTargetL - countOnTargetL);
-        }
-        if (countOnTargetR!=countTargetR) {
-            _positionErrorR = _positionErrorR / (countTargetR - countOnTargetR);
+            if (_touchCount != countOnTarget) {
+                _positionError = _positionError / (_touchCount - countOnTarget);
+            }
+            if (countOnTargetL != countTargetL) {
+                _positionErrorL = _positionErrorL / (countTargetL - countOnTargetL);
+            }
+            if (countOnTargetR != countTargetR) {
+                _positionErrorR = _positionErrorR / (countTargetR - countOnTargetR);
+            }
         }
     }
 }
