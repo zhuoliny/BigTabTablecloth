@@ -21,17 +21,17 @@ public class writeCSV {
     public static void writeCsvFile(Context c, String fileName, ArrayList<Touch> allTouch, UserInfo userInfo) {
         try {
             if (isExternalStorageWritable()) {
-                File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName);
+                File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "TbClth_" + userInfo.getName()+"/"+fileName);
                 PrintWriter csvWriter;
                 if (!file.mkdirs()) {
-                    Log.e("Error: ", "Directory not created");
+                    Log.e("Error: ", "(General) Directory not created");
                 }
                 if (file.exists()) {
                     file.delete();
                     file.createNewFile();
                     csvWriter = new PrintWriter(new FileWriter(file, true));
                     csvWriter.print(FILE_MARKER);
-                    csvWriter.print(BREAK);
+                    csvWriter.append(BREAK);
                     csvWriter.print(userInfo.getName()+COMMA+userInfo.getGender()+COMMA+userInfo.getAge()+COMMA+userInfo.getMoreInfo());
                     csvWriter.append(BREAK);
                     csvWriter.append(BREAK);
@@ -43,11 +43,11 @@ public class writeCSV {
                     }
                     csvWriter.close();
                     sHelper = new scannerHelper(c, file);
-                    System.out.println("CSV file was created successfully");
+                    Log.i("Message", "General CSV file was created successfully");
                 }
             }
         } catch (Exception e) {
-            System.out.println("Error in CsvFileWriter");
+            Log.e("Error", "Error in CsvFileWriter General");
             e.printStackTrace();
         }
     }

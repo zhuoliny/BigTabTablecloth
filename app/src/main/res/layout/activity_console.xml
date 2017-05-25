@@ -107,6 +107,7 @@
             android:layout_gravity="center_horizontal"
             android:id="@+id/SeqBtns">
 
+            <!--
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -126,6 +127,17 @@
                 android:textStyle="normal"
                 android:layout_marginRight="20dp"
                 android:textAlignment="center" />
+                -->
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ModeSequentList"/>
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ModeRandomList"/>
 
             <Button
                 android:layout_width="wrap_content"

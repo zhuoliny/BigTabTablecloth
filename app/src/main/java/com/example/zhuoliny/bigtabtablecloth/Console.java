@@ -10,10 +10,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -28,9 +31,10 @@ public class Console extends Activity {
 
     private UserInfo user;
     Button seqRepeat, lgtRepeat;
-    Boolean seqORlgt;
+    Boolean seqORlgt, random;
     int modeChose;
-    Button sequential, random, customize;
+    Button customize;
+    Spinner randomList, sequentList;
     Button large, medium, small;
     Button green, red, blue;
     EditText lightLimit, timeLimit;
@@ -41,6 +45,7 @@ public class Console extends Activity {
     String checkLightLmt, checkTimeLmt;
     LinearLayout seqListView;
     List<savedSequence> savedSequences;
+    ArrayList<String> dropDown_sqt, dropDown_rdm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +67,7 @@ public class Console extends Activity {
             Log.e("Retrieve Error", e.getMessage());
         }
 
+        random = false;
         lightLmt = -1;
         lightLimit = (EditText) findViewById(R.id.lightLimit);
         seqORlgt = true; // true: light or false: sequence // default: light(true)
@@ -80,11 +86,17 @@ public class Console extends Activity {
         seqRepeat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                seqRepeat.setBackgroundColor(Color.BLACK);
-                seqRepeat.setTextColor(Color.WHITE);
-                seqORlgt = false;
-                lgtRepeat.setBackgroundColor(Color.LTGRAY);
-                lgtRepeat.setTextColor(Color.BLACK);
+                if (!random) {
+                    seqRepeat.setBackgroundColor(Color.BLACK);
+                    seqRepeat.setTextColor(Color.WHITE);
+                    seqORlgt = false;
+                    lgtRepeat.setBackgroundColor(Color.LTGRAY);
+                    lgtRepeat.setTextColor(Color.BLACK);
+                }else {
+                    Context c = getApplicationContext();
+                    CharSequence text = "Please select Sequential Options or CUSTOMIZE for choosing SEQUENCE REPEAT";
+                    toaster(c, text);
+                }
             }
         });
 
@@ -173,7 +185,7 @@ public class Console extends Activity {
             }
         });
 
-        modeChose = 0; // nothing chose
+        /*
         sequence = new ArrayList<Integer>();
         sequential = (Button) findViewById(R.id.sequential);
         random = (Button) findViewById(R.id.random);
@@ -227,16 +239,102 @@ public class Console extends Activity {
                 }
             }
         });
+        */
+
+        modeChose = 0; // nothing chose
+        sequence = new ArrayList<Integer>();
+        customize = (Button) findViewById((R.id.Customize));
+        sequentList = (Spinner) findViewById(R.id.ModeSequentList);
+        dropDown_sqt = new ArrayList<String>();
+        dropDown_sqt.add("Sequential Options");
+        dropDown_sqt.add("Regular");
+        dropDown_sqt.add("Centralized");
+        ArrayAdapter<String> sequentAdapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, dropDown_sqt);
+        sequentAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sequentList.setAdapter(sequentAdapter);
+
+        randomList = (Spinner) findViewById(R.id.ModeRandomList);
+        dropDown_rdm = new ArrayList<String>();
+        dropDown_rdm.add("Randomized Options");
+        dropDown_rdm.add("Regular");
+        dropDown_rdm.add("Centralized");
+        ArrayAdapter<String> randomAdapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, dropDown_rdm);
+        randomAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        randomList.setAdapter(randomAdapter);
+
+        sequentList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0) {}
+                if (position == 1) {
+                    modeChose = 0; // sequential-regular
+                    randomList.setSelection(0);
+                    random = true;
+                }
+                if (position == 2) {
+                    modeChose = 1; // sequential-center
+                    randomList.setSelection(0);
+                    random = true;
+                }
+                if (modeChose == 1) {
+                    sequence.clear();
+                    sequence.add(0);
+                    int temp = 1;
+                    while (sequence.size()<16) {
+                        if (sequence.size()%2!=0) {
+                            sequence.add(temp);
+                            temp++;
+                        }else{
+                            sequence.add(0);
+                        }
+                    }
+                }
+                if (modeChose == 0) {
+                    sequence.clear();
+                    for (int i = 0; i < 9; i++) {
+                        sequence.add(i);
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+
+        randomList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (seqORlgt) {
+                    if (position == 0) {}
+                    if (position == 1) {
+                        modeChose = 2; // random-regular
+                        sequence.clear();
+                        sequence.add(generateR());
+                        sequentList.setSelection(0);
+                    }
+                    if (position == 2) {
+                        modeChose = 3; // random-center
+                        sequence.clear();
+                        sequence.add(0);
+                        sequentList.setSelection(0);
+                    }
+                }else{
+                    randomList.setSelection(0);
+                    Context c = getApplicationContext();
+                    CharSequence text = "Please Select LIGHT REPEAT for choosing Randomized Options";
+                    toaster(c, text);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
 
         popupSeq = new Dialog(this);
         popupSeq.setContentView(R.layout.seq_enter_popup);
         customize.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sequential.setBackgroundColor(Color.LTGRAY);
-                sequential.setTextColor(Color.BLACK);
-                random.setBackgroundColor(Color.LTGRAY);
-                random.setTextColor(Color.BLACK);
                 customize.setBackgroundColor(Color.BLACK);
                 customize.setTextColor(Color.WHITE);
 
@@ -251,10 +349,7 @@ public class Console extends Activity {
                         if (savedSequences.size()<=0) {
                             Context c = getApplicationContext();
                             CharSequence text = "No available saved sequence.";
-                            int time = Toast.LENGTH_SHORT;
-                            Toast t = Toast.makeText(c, text, time);
-                            t.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
-                            t.show();
+                            toaster(c, text);
                             seqView.dismiss();
                         }else {
                             for (int i = 0; i < savedSequences.size(); i++) {
@@ -268,10 +363,7 @@ public class Console extends Activity {
                                         sequence.addAll(savedSequences.get(v.getId()).getSequence());
                                         Context c = getApplicationContext();
                                         CharSequence text = "Sequence: " + savedSequences.get(v.getId()).getSequenceName() + " is chose.";
-                                        int time = Toast.LENGTH_SHORT;
-                                        Toast t = Toast.makeText(c, text, time);
-                                        t.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
-                                        t.show();
+                                        toaster(c, text);
                                         seqView.dismiss();
                                         popupSeq.dismiss();
                                     }
@@ -368,13 +460,17 @@ public class Console extends Activity {
                     if (!seqORlgt) {
                         lightLmt = lightLmt*sequence.size();
                     }else {
-                        if (seqORlgt && modeChose==2) {
+                        if (seqORlgt && modeChose==2 || seqORlgt && modeChose==3) {
                             for (int i = 0; i < lightLmt; i++) {
-                                int temp = generateR();
-                                while (temp == sequence.get(sequence.size() - 1)) {
-                                    temp = generateR();
+                                if (modeChose==3 && i%2!=0) {
+                                    sequence.add(0);
+                                }else {
+                                    int temp = generateR();
+                                    while (temp == sequence.get(sequence.size() - 1)) {
+                                        temp = generateR();
+                                    }
+                                    sequence.add(temp);
                                 }
-                                sequence.add(temp);
                             }
                         }
                     }
@@ -385,7 +481,7 @@ public class Console extends Activity {
                     timeLimit.setHint("Do not enter if you don't want a time limit");
                     Intent receiver = getIntent();
                     user = (UserInfo) receiver.getSerializableExtra("aUser");
-                    attr = new Attribute(sequence, size, timeLmt, color, lightLmt);
+                    attr = new Attribute(sequence, size, timeLmt, color, lightLmt, sequence.size(), modeChose);
                     Intent toCircleClick = new Intent(getApplicationContext(), CircleClick.class);
                     toCircleClick.putExtra("Attributes", attr);
                     toCircleClick.putExtra("aUser", user);
@@ -407,6 +503,13 @@ public class Console extends Activity {
     public int generateR() {
         Random r = new Random();
         return r.nextInt(9);
+    }
+
+    public void toaster(Context c, CharSequence text) {
+        int time = Toast.LENGTH_SHORT;
+        Toast t = Toast.makeText(c, text, time);
+        t.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
+        t.show();
     }
 
     public boolean onlyDigits(String s) {
