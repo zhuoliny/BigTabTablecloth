@@ -24,7 +24,7 @@ public class writeCSV {
                 File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "TbClth_" + userInfo.getName()+"/"+fileName);
                 PrintWriter csvWriter;
                 if (!file.mkdirs()) {
-                    Log.e("Error: ", "(General) Directory not created");
+                    Log.e("Error", "(General) Directory not created");
                 }
                 if (file.exists()) {
                     file.delete();
@@ -43,11 +43,11 @@ public class writeCSV {
                     }
                     csvWriter.close();
                     sHelper = new scannerHelper(c, file);
-                    Log.i("Message", "General CSV file was created successfully");
+                    Log.i("Message", "(General) CSV file was created successfully");
                 }
             }
         } catch (Exception e) {
-            Log.e("Error", "Error in CsvFileWriter General");
+            Log.e("Error", "(General) Error in CsvFileWriter");
             e.printStackTrace();
         }
     }

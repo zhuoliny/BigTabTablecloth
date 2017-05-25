@@ -403,12 +403,10 @@ public class CircleClick extends Activity {
             for (int i = 0; i < buttons.length; i++) {
                 int temp[] = new int[2];
                 buttons[i].getLocationOnScreen(temp);
-                //Log.i("A Position", Integer.toString(temp[0]) + ", " + Integer.toString(temp[1]));
                 positions.add(temp);
             }
             alreadySetup = true;
         }
-
         return super.dispatchTouchEvent(event);
     }
 
@@ -417,26 +415,19 @@ public class CircleClick extends Activity {
                 String.valueOf(_month) + "-" + String.valueOf(_day) + "-" + String.valueOf(_year) + "_" + String.valueOf(_hour) + ":" + String.valueOf(_minute) + ":" + String.valueOf(_second);
         outputData = new writeCSV();
         outputData.writeCsvFile(this, "General"+fileName+".csv", allTouch, user);
-        Log.i("message", "write general completed");
-        if (mode==1 || mode==3) {
-            Log.i("message", "start centralized saving process");
+        if (mode==2 || mode==3 || mode==4) {
             String header = "TestTime,Cycle1Duration,Cycle2Duration,Cycle3Duration,Cycle4Duration,Cycle5Duration,Cycle6Duration,Cycle7Duration,Cycle8Duration,CenterToTarget1,CenterToTarget2,CenterToTarget3,CenterToTarget4,CenterToTarget5,CenterToTarget6,CenterToTarget7,CenterToTarget8,TargetToCenter1,TargetToCenter2,TargetToCenter3,TargetToCenter4,TargetToCenter5,TargetToCenter6,TargetToCenter7,TargetToCenter8,ErrorCount";
             write_readCSV wrCSV = new write_readCSV();
             ArrayList<String> temp = wrCSV.readCsvFile("TbClth_"+user.getName()+"/"+"Centralized_AllData.csv");
             ArrayList<String> results = new ArrayList<String>();
-            Log.i("message", "read csv completed");
             if (!temp.isEmpty()) {
                 results.addAll(temp);
                 results.add(fileName+","+finalResult);
-                Log.i("results1", results.toString());
             }else {
                 results.add(header);
                 results.add(fileName + "," + finalResult);
-                Log.i("results2", results.toString());
             }
-            Log.i("results3", results.toString());
             wrCSV.writeCsvFile(this, "Centralized_AllData.csv", results, user.getName());
-            Log.i("message", "write centralized completed");
         }
     }
 
@@ -467,7 +458,6 @@ public class CircleClick extends Activity {
                     }
                 } else {
                     int target = allTouch.get(i).get_target();
-                    //Log.i("target: ", Integer.toString(target));
                     int[] tarP = xyPs.get(target);
                     int touchxP = allTouch.get(i).get_xPosition();
                     int touchyP = allTouch.get(i).get_yPosition();
@@ -482,8 +472,6 @@ public class CircleClick extends Activity {
                     }
                 }
             }
-            //Log.i("number of l ontarget", Double.toString(countOnTargetL));
-            //Log.i("number of l", Double.toString(countTargetL));
             _accuracy = countOnTarget / _touchCount;
             _accuracyL = countOnTargetL / countTargetL;
             _accuracyR = countOnTargetR / countTargetR;
@@ -505,7 +493,7 @@ public class CircleClick extends Activity {
             ArrayList<Long> cycleDuration = new ArrayList<Long>();
             int countCycle = 0;
             int cyclePointer = 0;
-            if (mode == 1 || mode == 3) {
+            if (mode == 2 || mode == 3 || mode == 4) {
                 if (allTouch.get(0).get_onTarget()) {
                     countCycle++;
                 }
@@ -518,12 +506,9 @@ public class CircleClick extends Activity {
                         cyclePointer = i;
                         countCycle = 0;
                     }
-
                     if (i%2!=0) {
                         centerToTarget[allTouch.get(i).get_target()] = centerToTarget[allTouch.get(i).get_target()] + allTouch.get(i).get_mSecond()-allTouch.get(i-1).get_mSecond();
                         tempCTT[allTouch.get(i).get_target()]++;
-                        int t = tempCTT[allTouch.get(i).get_target()];
-                        //Log.i("tempCTT", Integer.toString(t));
                     }else{
                         if (i%2==0) {
                             targetToCenter[allTouch.get(i-1).get_target()] = targetToCenter[allTouch.get(i-1).get_target()] + allTouch.get(i).get_mSecond()-allTouch.get(i-1).get_mSecond();
@@ -544,6 +529,9 @@ public class CircleClick extends Activity {
                 for (int i=0; i<cycleDuration.size(); i++) {
                     temp += Long.toString(cycleDuration.get(i));
                     temp += ",";
+                }
+                while (cycleDuration.size()<8) {
+                    cycleDuration.add(0L);
                 }
                 finalResult = temp + finalResult + Integer.toString(allTouch.size()-(int)countOnTarget);
             }

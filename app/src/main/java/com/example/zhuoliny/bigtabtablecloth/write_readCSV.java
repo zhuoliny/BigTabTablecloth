@@ -21,26 +21,24 @@ public class write_readCSV {
             if (isExternalStorageWritable()) {
                 File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "TbClth_"+userName+"/"+fileName);
                 PrintWriter csvWriter;
-                Log.w("noooooo", "aaaaaaaa");
                 if (!file.mkdirs()) {
-                    Log.e("Error: ", "(Centralized) Directory not created");
+                    Log.e("Error", "(Centralized) Directory not created");
                 }
-                if (!file.exists()) {
+                if (file.exists()) {
+                    file.delete();
                     file.createNewFile();
-                }
                     csvWriter = new PrintWriter(new FileWriter(file, true));
-                    Log.i("resultsC", results.toString());
                     for (String aLine: results) {
-                        Log.i("A line", aLine);
                         csvWriter.print(aLine);
                         csvWriter.append(BREAK);
                     }
                     csvWriter.close();
                     sHelper = new scannerHelper(c, file);
-                    Log.i("Message","Centralized CSV file was created successfully");
+                    Log.i("Message","(Centralized) CSV file was created successfully");
+                }
             }
         } catch (Exception e) {
-            Log.e("Error", "Error in CsvFileWriter Centralized");
+            Log.e("Error", "(Centralized) Error in CsvFileWriter");
             e.printStackTrace();
         }
     }
