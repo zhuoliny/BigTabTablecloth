@@ -160,20 +160,20 @@ public class CircleClick extends Activity {
         for (int i = 0; i < buttons.length; i++) {
             if (size == 0) {
                 ViewGroup.LayoutParams params = buttons[i].getLayoutParams();
-                params.width = radius / 5;
-                params.height = radius / 5;
+                params.width = radius / 6;
+                params.height = radius / 6;
                 buttons[i].setLayoutParams(params);
             }
             if (size == 1) {
                 ViewGroup.LayoutParams params = buttons[i].getLayoutParams();
-                params.width = radius / 4;
-                params.height = radius / 4;
+                params.width = radius / 5;
+                params.height = radius / 5;
                 buttons[i].setLayoutParams(params);
             }
             if (size == 2) {
                 ViewGroup.LayoutParams params = buttons[i].getLayoutParams();
-                params.width = radius / 3;
-                params.height = radius / 3;
+                params.width = radius / 4;
+                params.height = radius / 4;
                 buttons[i].setLayoutParams(params);
             }
             buttons[i].setOnTouchListener(new View.OnTouchListener() {
