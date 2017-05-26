@@ -344,6 +344,14 @@ public class Console extends Activity {
                     t.show();
                 }
                 if (onlyDigits(checkLightLmt) && onlyDigits(checkTimeLmt)) {
+                    if (modeChose == 4) {
+                        int pointer = 0;
+                        int limit = sequence.size();
+                        for (int i=0; i<limit; i++) {
+                            sequence.add(pointer, 0);
+                            pointer += 2;
+                        }
+                    }
                     lightLmt = Integer.parseInt(checkLightLmt);
                     if (!seqORlgt) {
                         lightLmt = lightLmt*sequence.size();
@@ -358,14 +366,6 @@ public class Console extends Activity {
                             }
                         }
                     }
-                    if (modeChose == 4) {
-                        int pointer = 0;
-                        int limit = sequence.size();
-                        for (int i=0; i<limit; i++) {
-                            sequence.add(pointer, 0);
-                            pointer += 2;
-                        }
-                    }
                     if (!sequence.isEmpty()&& onlyDigits(checkLightLmt) && onlyDigits(checkTimeLmt)) {
                         timeLmt = Integer.parseInt(checkTimeLmt);
                         lightLimit.setHintTextColor(Color.LTGRAY);
@@ -374,6 +374,7 @@ public class Console extends Activity {
                         timeLimit.setHint("Do not enter if you don't want a time limit");
                         Intent receiver = getIntent();
                         user = (UserInfo) receiver.getSerializableExtra("aUser");
+                        Log.i("sequencesize", Integer.toString(sequence.size()));
                         attr = new Attribute(sequence, size, timeLmt, color, lightLmt, sequence.size(), modeChose);
                         Intent toCircleClick = new Intent(getApplicationContext(), CircleClick.class);
                         toCircleClick.putExtra("Attributes", attr);

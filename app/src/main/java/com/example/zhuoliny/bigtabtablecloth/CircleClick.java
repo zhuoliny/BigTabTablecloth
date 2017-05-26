@@ -20,13 +20,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 
 public class CircleClick extends Activity {
 
@@ -39,7 +35,7 @@ public class CircleClick extends Activity {
     private int size, color, lightLmt, timeLmt, mode, cycleLmt;
     private writeCSV outputData;
     private int xPosition, yPosition;
-    private String finalResult = "";
+    private String finalResult2 = "", finalResult1 = "";
     ArrayList<Touch> allTouch;
     Dialog gameoverPopup, passPopup, resultsPopup, resultsView;
     Button saveYes, saveNo, pass, passYes, passNo, viewYes, viewNo, resultClose;
@@ -57,6 +53,10 @@ public class CircleClick extends Activity {
     private double _duration;
     private double _accuracy, _accuracyL, _accuracyR, _positionError, _positionErrorL, _positionErrorR;
     EditText _tCount, _dura, _acc, _accL, _accR, _pError, _pErrorL, _pErrorR;
+    private Runnable r;
+    private Handler timer;
+    boolean timerOn=false;
+    private int[] passPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +102,9 @@ public class CircleClick extends Activity {
                 pass.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        passGame();
+                        allTouch.remove(allTouch.size()-1);
+                        viewResults();
+                        //passGame();
                     }
                 });
 
@@ -124,8 +126,9 @@ public class CircleClick extends Activity {
         }, 3000);
 
         if (timeLmt > 0) {
-            Handler timer = new Handler();
-            timer.postDelayed(new Runnable() {
+            timerOn = true;
+            timer = new Handler();
+            timer.postDelayed(r = new Runnable() {
                 @Override
                 public void run() {
                     viewResults();
@@ -230,6 +233,9 @@ public class CircleClick extends Activity {
     }
 
     public void gameOver() {
+        if (timerOn) {
+            timer.removeCallbacks(r);
+        }
         gameoverPopup = new Dialog(this);
         gameoverPopup.setCanceledOnTouchOutside(false);
         gameoverPopup.setContentView(R.layout.gameover_popup);
@@ -276,6 +282,7 @@ public class CircleClick extends Activity {
         viewNo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                dataAnalysis(allTouch, positions);
                 gameOver();
                 resultsPopup.dismiss();
             }
@@ -348,6 +355,7 @@ public class CircleClick extends Activity {
         resultsView.show();
     }
 
+    /*
     public void passGame() {
         passPopup = new Dialog(this);
         passPopup.setContentView(R.layout.pass_popup);
@@ -369,6 +377,7 @@ public class CircleClick extends Activity {
         });
         passPopup.show();
     }
+    */
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
@@ -389,23 +398,21 @@ public class CircleClick extends Activity {
                 long timeGap_temp = 0;
                 timeGap_temp = msTime - previous.get_mSecond();
                 newTouch.set_timeGap(timeGap_temp);
-
                 double dist_temp = (xPosition - previous.get_xPosition()) * (xPosition - previous.get_xPosition()) + (yPosition - previous.get_yPosition()) * (yPosition - previous.get_yPosition());
                 dist_temp = Math.sqrt(dist_temp);
                 newTouch.set_distance(dist_temp);
-
                 newTouch.set_speed();
             }
             allTouch.add(newTouch);
             onTarget = false;
-        }
-        if (!alreadySetup) {
-            for (int i = 0; i < buttons.length; i++) {
-                int temp[] = new int[2];
-                buttons[i].getLocationOnScreen(temp);
-                positions.add(temp);
+            if (!alreadySetup) {
+                for (int i = 0; i < buttons.length; i++) {
+                    int temp[] = new int[2];
+                    buttons[i].getLocationOnScreen(temp);
+                    positions.add(temp);
+                }
+                alreadySetup = true;
             }
-            alreadySetup = true;
         }
         return super.dispatchTouchEvent(event);
     }
@@ -415,19 +422,31 @@ public class CircleClick extends Activity {
                 String.valueOf(_month) + "-" + String.valueOf(_day) + "-" + String.valueOf(_year) + "_" + String.valueOf(_hour) + ":" + String.valueOf(_minute) + ":" + String.valueOf(_second);
         outputData = new writeCSV();
         outputData.writeCsvFile(this, "General"+fileName+".csv", allTouch, user);
+        String header1 = "Sequence,TestTime,#ofTouches,TestDuration,Accuracy,AccuracyLeft,AccuracyRight,PositionError,PositionErrorLeft,PositionErrorRight";
+        write_readCSV wrCSV1 = new write_readCSV();
+        ArrayList<String> temp1 = wrCSV1.readCsvFile("TbClth_"+user.getName()+"/"+"General_AllData.csv");
+        ArrayList<String> results1 = new ArrayList<String>();
+        if (!temp1.isEmpty()) {
+            results1.addAll(temp1);
+            results1.add(sequence.toString().replaceAll(",", "")+","+fileName+","+finalResult1);
+        }else{
+            results1.add(header1);
+            results1.add(sequence.toString().replaceAll(",", "")+","+fileName+","+finalResult1);
+        }
+        wrCSV1.writeCsvFile(this, "General_AllData.csv", results1, user.getName());
         if (mode==2 || mode==3 || mode==4) {
-            String header = "TestTime,Cycle1Duration,Cycle2Duration,Cycle3Duration,Cycle4Duration,Cycle5Duration,Cycle6Duration,Cycle7Duration,Cycle8Duration,CenterToTarget1,CenterToTarget2,CenterToTarget3,CenterToTarget4,CenterToTarget5,CenterToTarget6,CenterToTarget7,CenterToTarget8,TargetToCenter1,TargetToCenter2,TargetToCenter3,TargetToCenter4,TargetToCenter5,TargetToCenter6,TargetToCenter7,TargetToCenter8,ErrorCount";
-            write_readCSV wrCSV = new write_readCSV();
-            ArrayList<String> temp = wrCSV.readCsvFile("TbClth_"+user.getName()+"/"+"Centralized_AllData.csv");
-            ArrayList<String> results = new ArrayList<String>();
-            if (!temp.isEmpty()) {
-                results.addAll(temp);
-                results.add(fileName+","+finalResult);
+            String header2 = "Sequence,TestTime,Cycle1Duration,Cycle2Duration,Cycle3Duration,Cycle4Duration,Cycle5Duration,Cycle6Duration,Cycle7Duration,Cycle8Duration,CenterToTarget1,CenterToTarget2,CenterToTarget3,CenterToTarget4,CenterToTarget5,CenterToTarget6,CenterToTarget7,CenterToTarget8,TargetToCenter1,TargetToCenter2,TargetToCenter3,TargetToCenter4,TargetToCenter5,TargetToCenter6,TargetToCenter7,TargetToCenter8,ErrorCount";
+            write_readCSV wrCSV2 = new write_readCSV();
+            ArrayList<String> temp2 = wrCSV2.readCsvFile("TbClth_"+user.getName()+"/"+"Centralized_AllData.csv");
+            ArrayList<String> results2 = new ArrayList<String>();
+            if (!temp2.isEmpty()) {
+                results2.addAll(temp2);
+                results2.add(sequence.toString().replaceAll(",", "")+","+fileName+","+finalResult2);
             }else {
-                results.add(header);
-                results.add(fileName + "," + finalResult);
+                results2.add(header2);
+                results2.add(sequence.toString().replaceAll(",", "")+","+fileName + "," + finalResult2);
             }
-            wrCSV.writeCsvFile(this, "Centralized_AllData.csv", results, user.getName());
+            wrCSV2.writeCsvFile(this, "Centralized_AllData.csv", results2, user.getName());
         }
     }
 
@@ -485,6 +504,7 @@ public class CircleClick extends Activity {
             if (countOnTargetR != countTargetR) {
                 _positionErrorR = _positionErrorR / (countTargetR - countOnTargetR);
             }
+            finalResult1 = Integer.toString(_touchCount)+","+Double.toString(_duration)+","+Double.toString(_accuracy)+","+Double.toString(_accuracyL)+","+Double.toString(_accuracyR)+","+Double.toString(_positionError)+","+Double.toString(_positionErrorL)+","+Double.toString(_positionErrorR);
 
             long[] centerToTarget = new long[9];
             long[] targetToCenter = new long[9];
@@ -523,17 +543,17 @@ public class CircleClick extends Activity {
                     if (tempTTC[i]!=0) {
                         targetToCenter[i] = targetToCenter[i] / tempTTC[i];
                     }
-                    finalResult += Long.toString(centerToTarget[i]) + "," + Long.toString(targetToCenter[i]) + ",";
+                    finalResult2 += Long.toString(centerToTarget[i]) + "," + Long.toString(targetToCenter[i]) + ",";
+                }
+                while (cycleDuration.size()<8) {
+                    cycleDuration.add(Long.MIN_VALUE);
                 }
                 String temp = "";
                 for (int i=0; i<cycleDuration.size(); i++) {
                     temp += Long.toString(cycleDuration.get(i));
                     temp += ",";
                 }
-                while (cycleDuration.size()<8) {
-                    cycleDuration.add(0L);
-                }
-                finalResult = temp + finalResult + Integer.toString(allTouch.size()-(int)countOnTarget);
+                finalResult2 = temp + finalResult2 + Integer.toString(allTouch.size()-(int)countOnTarget);
             }
         }
     }
